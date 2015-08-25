@@ -1,0 +1,20 @@
+@mentionClassPrefix: kuma-mention;
+
+.@{mentionClassPrefix}-panel {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #000;
+	display: none;
+	&.@{mentionClassPrefix}-panel-visible {
+		display: block;
+	}
+	li {
+		display: block;
+		cursor: pointer;
+		&:hover {
+			background-color: #ccc;
+		}
+	}
+}
