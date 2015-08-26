@@ -1,20 +1,31 @@
 @mentionClassPrefix: kuma-mention;
 
-.@{mentionClassPrefix}-panel {
-	position: absolute;
-	margin: 0;
-	padding: 0;
-	background-color: #fff;
-	border: 1px solid #000;
-	display: none;
-	&.@{mentionClassPrefix}-panel-visible {
-		display: block;
+.@{mentionClassPrefix} {
+	&-node {
+		padding: 0 2px;
+		background: none;
+		border: 0 none;
+		color: #2691F7;
 	}
-	li {
-		display: block;
-		cursor: pointer;
-		&:hover {
-			background-color: #ccc;
+	&-panel {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		background-color: #fff;
+		border: 1px solid #000;
+		display: none;
+		&-visible {
+			display: block;
+		}
+		&-item {
+			display: block;
+			cursor: pointer;
+			&:hover {
+				background-color: #ccc;
+			}
+			&-current {
+				background-color: #bbb;
+			}
 		}
 	}
 }

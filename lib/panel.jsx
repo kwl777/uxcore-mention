@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 export default class Panel extends React.Component {
 	constructor(props){
@@ -6,15 +7,19 @@ export default class Panel extends React.Component {
 	}
 	render(){
 		let props = this.props;
-		let {onSelect, list, style, visible} = props;
-		let cls = 'kuma-mention-panel';
-		if (visible) {
-			cls += ' kuma-mention-panel-visible';
-		}
+		let {onSelect, list, style, visible, idx, formatter, prefixCls} = props;
+		let clsObj = {};
+		clsObj[`${prefixCls}-panel`] = true;
+		clsObj[`${prefixCls}-panel-visible`] = visible;
+		let cls = classNames(clsObj);
 		return (
 			<ul className={cls} style={style}>
 				{list.map((item, index)=> {
-					return <li key={index} onClick={onSelect.bind(this, item)}>{item.text}</li>;
+					let itemClsObj = {};
+					itemClsObj[`${prefixCls}-panel-item`] = true;
+					itemClsObj[`${prefixCls}-panel-item-current`] = idx === index;
+					let itemCls = classNames(itemClsObj);
+					return <li className={itemCls} key={index} onClick={onSelect.bind(this, item)}>{formatter(item)}</li>;
 				})}
 			</ul>
 		);
@@ -22,12 +27,18 @@ export default class Panel extends React.Component {
 }
 Panel.displayName = 'uxcore-mention-panel';
 Panel.propType = {
+	prefixCls: React.PropTypes.string,
 	list: React.PropTypes.array,
 	style: React.PropTypes.object,
-	onSelect: React.PropTypes.func
+	idx: React.PropTypes.number,
+	onSelect: React.PropTypes.func,
+	formatter: React.PropTypes.func
 };
 Panel.defaultProps = {
+	prefixCls: '',
 	list: [],
 	style: {},
-	onSelect: null
+	idx: 0,
+	onSelect: null,
+	formatter: ''
 };

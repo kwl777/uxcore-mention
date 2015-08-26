@@ -4,6 +4,9 @@
 import React from 'react';
 import Panel from './panel.jsx';
 import Editor from './editor.jsx';
+import {KEYCODE} from './keycode';
+
+let __matchTimer;
 
 export default class Mention extends React.Component {
     constructor(props){
@@ -15,7 +18,8 @@ export default class Mention extends React.Component {
                 x: 0,
                 y: 0
             },
-            panelVisible: false
+            panelVisible: false,
+            panelIdx: 0
         };
     }
     componentDidUpdate(prevProps, prevState){
@@ -24,17 +28,29 @@ export default class Mention extends React.Component {
                 panelVisible: this.state.mentionList.length > 0
             });
         }
+        if (!prevState.panelVisible && this.state.panelVisible) {
+            this.setState({
+                panelIdx: 0
+            });
+        }
     }
-    selectItem(data, e){
+    selectItem(data){
         this.setState({
             target: {
                 data: data,
                 t: new Date().getTime()
             },
-            // panelVisible: false
+            mentionList: []
         });
     }
     runMatcher(str){
+        __matchTimer && clearTimeout(__matchTimer);
+        __matchTimer = setTimeout(() => {
+            this._matcher(str);
+        }.bind(this), this.props.delay);
+    }
+    _matcher(str){
+        console.log(`matcher run with: ${str}`);
         let {source, matchRange} = this.props;
         this.setState({
             panelVisible: false
@@ -55,41 +71,91 @@ export default class Mention extends React.Component {
         });
     }
     _next(matchResult){
+        if (this.props.formatter) {
+            matchResult = this.props.formatter(matchResult);
+        }
         this.setState({
             mentionList: matchResult
         });
     }
+    onKeyup(e){
+        if (this.state.panelVisible) {
+            let count = this.state.mentionList.length;
+            switch(e.keyCode) {
+                case KEYCODE.UP:
+                    this.setState({
+                        panelIdx: this.state.panelIdx === 0 ? count - 1: this.state.panelIdx - 1
+                    });
+                    break;
+                case KEYCODE.DOWN:
+                    this.setState({
+                        panelIdx: this.state.panelIdx === count - 1 ? 0: this.state.panelIdx + 1
+                    });
+                    break;
+                case KEYCODE.ENTER:
+                    this.selectItem(this.state.mentionList[this.state.panelIdx]);
+                    break;
+                default:
+                    this.setState({
+                        mentionList: []
+                    });
+                    break;
+            }
+        }
+    }
     render(){
         let props = this.props;
-        let list = this.state.mentionList.map((item)=>{
-            return {
-                text: item
-            };
-        });
         let panelPosition = {
             left: this.state.cursorPosition.x,
             top: this.state.cursorPosition.y
         };
     	return (
-            <div>
+            <div onKeyUp={this.onKeyup.bind(this)}>
                 <Editor
+                    prefixCls={props.prefixCls}
+                    panelVisible={this.state.panelVisible}
                     matcher={this.runMatcher.bind(this)}
                     mentionTarget={this.state.target}
-                    setCursorPos={this.setPanelPos.bind(this)}>{props.children}</Editor>
-                <Panel visible={this.state.panelVisible} list={list} onSelect={this.selectItem.bind(this)} style={panelPosition}></Panel>
+                    setCursorPos={this.setPanelPos.bind(this)}
+                    formatter={this.props.mentionFormatter}
+                    >{props.children}</Editor>
+                <Panel
+                    prefixCls={props.prefixCls}
+                    visible={this.state.panelVisible}
+                    idx={this.state.panelIdx}
+                    list={this.state.mentionList}
+                    onSelect={this.selectItem.bind(this)}
+                    formatter={this.props.panelFormatter}
+                    style={panelPosition}></Panel>
             </div>
         );
     }
 }
 Mention.displayName = 'uxcore-mention';
 Mention.propType = {
+    prefixCls: React.PropTypes.string,
     source: React.PropTypes.oneOfType([
         React.PropTypes.array,
         React.PropTypes.func
     ]),
-    matchRange: React.PropTypes.arrayOf(React.PropTypes.number)
+    delay: React.PropTypes.number,
+    matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
+    formatter: React.PropTypes.func,
+    panelFormatter: React.PropTypes.func,
+    mentionFormatter: React.PropTypes.func
 };
 Mention.defaultProps = {
+    prefixCls: 'kuma-mention',
     source: [],
-    matchRange: [2, 8]
+    delay: 100,
+    matchRange: [2, 8],
+    formatter: function(data){
+        return data;
+    },
+    panelFormatter: function(data){
+        return `${data.text}`;
+    },
+    mentionFormatter: function(data){
+        return `@${data.text}`;
+    }
 };
