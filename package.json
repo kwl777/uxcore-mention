@@ -1,10 +1,11 @@
 {
   "name": "mention",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "mention ui component for react",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --progress --colors --port 9090 --host 10.1.152.110",
+    "dev": "webpack-dev-server --progress --colors --port 9090",
+    "dev-local": "webpack-dev-server --progress --colors --port 9090 --host 10.1.152.110",
     "build": "webpack --config webpack.build.js",
     "deploy": "git subtree push --prefix build origin gh-pages"
   },
