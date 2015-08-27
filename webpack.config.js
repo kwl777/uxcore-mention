@@ -29,6 +29,9 @@ module.exports = {
             filename: 'vender.js'
         })
     ],
+    externals: {
+        'rangy': 'rangy'
+    },
     debug: true,
     devtool: 'eval',
     devServer: {

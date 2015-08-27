@@ -20,7 +20,6 @@ export default class Editor extends React.Component {
 	componentDidMount(){
 		let editor = React.findDOMNode(this.refs.editor);
 		console.log(editor);
-		rangy.init();
 	}
     componentWillReceiveProps(nextProps){
         if (nextProps.mentionTarget &&
@@ -84,7 +83,7 @@ export default class Editor extends React.Component {
         			let originStr = range.toString();
         			let str = parseStrByDelimiter(originStr, '@');
         			// send str to matcher
-        			this.props.matcher(str, range.getEndClientPos());
+        			this.props.matcher(str);
                     if (str) {
             			this.props.setCursorPos(range.getEndClientPos());
             			// set range's start position before delimiter

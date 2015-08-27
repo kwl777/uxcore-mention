@@ -28,7 +28,9 @@ module.exports = {
                 filename: 'vender.js'
             })
         ]),
-
+    externals: {
+        'rangy': 'rangy'
+    },
     module: {
         loaders: loaders
     },
