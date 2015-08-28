@@ -19,7 +19,7 @@ export default class Panel extends React.Component {
 					itemClsObj[`${prefixCls}-panel-item`] = true;
 					itemClsObj[`${prefixCls}-panel-item-current`] = idx === index;
 					let itemCls = classNames(itemClsObj);
-					return <li className={itemCls} key={index} onClick={onSelect.bind(this, item)}>{formatter(item)}</li>;
+					return <li className={itemCls} key={index} onClick={onSelect.bind(this, item)}><div dangerouslySetInnerHTML={{__html: formatter(item)}} /></li>;
 				})}
 			</ul>
 		);

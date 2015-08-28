@@ -120,9 +120,8 @@ export default class Editor extends React.Component {
 	}
 	render(){
 		let style = {
-            width: '400px',
-            height: '300px',
-            border: '1px solid #000'
+            width: this.props.width,
+            height: this.props.height
         };
         let className = classNames(this.props.prefixCls, this.props.prefixCls + '-editor');
 		return (
@@ -139,6 +138,8 @@ export default class Editor extends React.Component {
 Editor.displayName = 'uxcore-mention-editor';
 Editor.propType = {
     prefixCls: React.PropTypes.string,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
 	mentionTarget: React.PropTypes.object,
 	matcher: React.PropTypes.func,
 	setCursorPos: React.PropTypes.func,
@@ -147,6 +148,8 @@ Editor.propType = {
 };
 Editor.defaultProps = {
     prefixCls: '',
+    width: 200,
+    height: 100,
 	mentionTarget: null,
 	matcher: function(){},
 	setCursorPos: function(){},

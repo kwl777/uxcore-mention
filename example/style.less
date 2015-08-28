@@ -1,6 +1,9 @@
 @mentionClassPrefix: kuma-mention;
 
 .@{mentionClassPrefix} {
+	&-editor {
+		border: 1px solid #ccc;
+	}
 	&-node {
 		padding: 0 2px;
 		background: none;
@@ -12,19 +15,20 @@
 		margin: 0;
 		padding: 0;
 		background-color: #fff;
-		border: 1px solid #000;
+		border: 1px solid #dfdfdf;
 		display: none;
 		&-visible {
 			display: block;
 		}
 		&-item {
 			display: block;
+			padding: 0 4px;
 			cursor: pointer;
 			&:hover {
-				background-color: #ccc;
+				background-color: #e0e0e0;
 			}
 			&-current {
-				background-color: #bbb;
+				background-color: #e0e0e0;
 			}
 		}
 	}

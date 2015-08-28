@@ -61,7 +61,7 @@ export default class Mention extends React.Component {
                     return item.indexOf(str) !== -1;
                 }));
             } else {
-                source(this._next);
+                source(str, this._next.bind(this));
             }
         }
     }
@@ -109,10 +109,13 @@ export default class Mention extends React.Component {
             left: this.state.cursorPosition.x,
             top: this.state.cursorPosition.y
         };
+        let {width, height, prefixCls} = props;
     	return (
             <div onKeyUp={this.onKeyup.bind(this)}>
                 <Editor
-                    prefixCls={props.prefixCls}
+                    width={width}
+                    height={height}
+                    prefixCls={prefixCls}
                     panelVisible={this.state.panelVisible}
                     matcher={this.runMatcher.bind(this)}
                     mentionTarget={this.state.target}
@@ -120,7 +123,7 @@ export default class Mention extends React.Component {
                     formatter={this.props.mentionFormatter}
                     >{props.children}</Editor>
                 <Panel
-                    prefixCls={props.prefixCls}
+                    prefixCls={prefixCls}
                     visible={this.state.panelVisible}
                     idx={this.state.panelIdx}
                     list={this.state.mentionList}
@@ -134,6 +137,8 @@ export default class Mention extends React.Component {
 Mention.displayName = 'uxcore-mention';
 Mention.propType = {
     prefixCls: React.PropTypes.string,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     source: React.PropTypes.oneOfType([
         React.PropTypes.array,
         React.PropTypes.func
@@ -146,6 +151,8 @@ Mention.propType = {
 };
 Mention.defaultProps = {
     prefixCls: 'kuma-mention',
+    width: 200,
+    height: 100,
     source: [],
     delay: 100,
     matchRange: [2, 8],
