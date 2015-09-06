@@ -1,0 +1,48 @@
+/**
+ * Mention Component Style for uxcore
+ * @author
+ *
+ * Copyright 2014-2015, Uxcore Team, Alinw.
+ * All rights reserved.
+ */
+/*@pager-bg:                             @pagination-bg;
+@pager-border:                         @pagination-border;
+@pager-border-radius:                  15px;
+
+@pager-hover-bg:                       @pagination-hover-bg;
+
+@pager-active-bg:                      @pagination-active-bg;
+@pager-active-color:                   @pagination-active-color;*/
+.kuma-mention-editor {
+  border: 1px solid #ccc;
+}
+.kuma-mention-node {
+  padding: 0 2px;
+  background: none;
+  border: 0 none;
+  color: #2691F7;
+}
+.kuma-mention-panel {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  display: none;
+}
+.kuma-mention-panel-visible {
+  display: block;
+}
+.kuma-mention-panel-item {
+  display: block;
+  padding: 0 4px;
+  cursor: pointer;
+}
+.kuma-mention-panel-item:hover {
+  background-color: #e0e0e0;
+}
+.kuma-mention-panel-item-current {
+  background-color: #e0e0e0;
+}
+
+/*# sourceMappingURL=Mention.css.map */

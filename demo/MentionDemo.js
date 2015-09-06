@@ -2,8 +2,7 @@
  * example index
  */
 import React from 'react';
-import Mention from '../index';
-import './style.less';
+import Mention from '../src/index';
 
 function formatter(data){
     return data.map((item) => {
@@ -248,26 +247,30 @@ function personMentionFormatter(data){
     return `@${data.name}(${data.emplId})`;
 }
 
-React.render((
-    <div>
-        <h1>BASE:</h1>
-        <Mention
-            width="300"
-            height="150"
-            matchRange={[1, 6]}
-            source={source}
-            formatter={formatter}>
-            default content
-        </Mention>
-        <h1>SELECT PERSON:</h1>
-        <Mention
-            width="400"
-            height="200"
-            matchRange={[2, 6]}
-            source={getPersonData}
-            formatter={personDataFormatter}
-            panelFormatter={personPanelFormatter}
-            mentionFormatter={personMentionFormatter}>
-        </Mention>
-    </div>
-), document.getElementById('content'));
+export default class Demo extends React.Component {
+    render(){
+        return (
+            <div>
+                <h1>BASE:</h1>
+                <Mention
+                    width="300"
+                    height="150"
+                    matchRange={[1, 6]}
+                    source={source}
+                    formatter={formatter}>
+                    default content
+                </Mention>
+                <h1>SELECT PERSON:</h1>
+                <Mention
+                    width="400"
+                    height="200"
+                    matchRange={[2, 6]}
+                    source={getPersonData}
+                    formatter={personDataFormatter}
+                    panelFormatter={personPanelFormatter}
+                    mentionFormatter={personMentionFormatter}>
+                </Mention>
+            </div>
+        );
+    }
+}

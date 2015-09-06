@@ -1,4 +1,4 @@
-# mention
+# uxcore-mention
 
 - tags: uxcore, component, mention, at, editor
 - description: mention anything in editor
@@ -16,7 +16,7 @@ mention ui component for react
 #### setup develop environment
 
 ```sh
-$ git clone https://github.com/uxcore/mention
+$ git clone https://github.com/uxcore/uxcore-mention
 $ cd mention
 $ npm install
 $ npm run dev
@@ -35,7 +35,7 @@ $ npm run deploy
 ## Usage
 
 ### demo
-http://uxcore.github.io/mention/
+http://uxcore.github.io/uxcore-mention/
 
 ### API
 
