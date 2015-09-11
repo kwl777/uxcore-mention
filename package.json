@@ -1,5 +1,5 @@
 {
-  "name": "mention",
+  "name": "uxcore-mention",
   "version": "0.1.1",
   "description": "mention ui component for react",
   "main": "src/index.js",
