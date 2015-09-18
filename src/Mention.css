@@ -27,7 +27,8 @@
   margin: 0;
   padding: 0;
   background-color: #fff;
-  border: 1px solid #dfdfdf;
+  border: 1px solid #d6d6d6;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   display: none;
 }
 .kuma-mention-panel-visible {
@@ -35,14 +36,20 @@
 }
 .kuma-mention-panel-item {
   display: block;
-  padding: 0 4px;
+  padding: 2px 5px;
+  height: 30px;
+  line-height: 26px;
+  border-top: 1px dotted #e0e0e0;
   cursor: pointer;
 }
+.kuma-mention-panel-item:first-child {
+  border-top: 0 none;
+}
 .kuma-mention-panel-item:hover {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 .kuma-mention-panel-item-current {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 /*# sourceMappingURL=Mention.css.map */
