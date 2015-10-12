@@ -33,16 +33,14 @@
     "gulp-just-replace": "~1.0.2",
     "gulp-less": "~3.0.3",
     "gulp-sourcemaps": "~1.5.2",
-    "webpack": "^1.10.5"
+    "webpack": "^1.10.5",
+    "react": ">=0.13.0"
   },
   "dependencies": {
     "classnames": "^2.1.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
     "uxcore-kuma": "~1.0.6"
-  },
-  "peerDependencies": {
-    "react": ">=0.13.0"
   },
   "author": "vincent.bian",
   "contributors": [],
