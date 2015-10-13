@@ -12,7 +12,7 @@
  * Version: %%build:version%%
  * Build date: %%build:date%%
  */
-import rangy from 'rangy';
+// import rangy from 'rangy';
 
 rangy.createModule("Position", ["WrappedSelection"], function(api, module) {
     //var log = log4javascript.getLogger("rangy.position");

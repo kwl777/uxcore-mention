@@ -15,4 +15,23 @@ function parseStrByDelimiter(str = '', delimiter = '@') {
 	return str;
 }
 
-export {parseStrByDelimiter};
+/**
+ * [get window scroll offset]
+ * @method getScrollOffset
+ */
+function getScrollOffset(){
+	var offset = {};
+	if (window.pageXOffset) {
+		offset.x = window.pageXOffset;
+	} else {
+		offset.x = document.documentElement.scrollLeft;
+	}
+	if (window.pageYOffset) {
+		offset.y = window.pageYOffset;
+	} else {
+		offset.y = document.documentElement.scrollTop;
+	}
+	return offset;
+}
+
+export {parseStrByDelimiter, getScrollOffset};

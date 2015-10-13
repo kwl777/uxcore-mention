@@ -1,5 +1,5 @@
 import React from 'react';
-import rangy from 'rangy';
+// import rangy from 'rangy';
 import './rangy-position';
 import {parseStrByDelimiter} from './util';
 import {KEYCODE} from './keycode';

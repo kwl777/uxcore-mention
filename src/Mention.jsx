@@ -5,6 +5,7 @@ import React from 'react';
 import Panel from './panel.jsx';
 import Editor from './editor.jsx';
 import {KEYCODE} from './keycode';
+import {getScrollOffset} from './util';
 
 let __matchTimer;
 
@@ -66,6 +67,11 @@ export default class Mention extends React.Component {
         }
     }
     setPanelPos(pos){
+        var offset = getScrollOffset();
+        pos = {
+            x: pos.x + offset.x,
+            y: pos.y + offset.y
+        };
         this.setState({
             cursorPosition: pos
         });
