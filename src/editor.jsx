@@ -18,7 +18,7 @@ export default class Editor extends React.Component {
 		super(props);
 	}
 	componentDidMount(){
-		let editor = React.findDOMNode(this.refs.editor);
+		let editor = this.refs.editor;
 		console.log(editor);
 	}
     componentWillReceiveProps(nextProps){
@@ -43,7 +43,7 @@ export default class Editor extends React.Component {
 				// insert br at the end of line
 				e.preventDefault();
                 if (!this.props.panelVisible) {
-    				let editor = React.findDOMNode(this.refs.editor);
+    				let editor = this.refs.editor;
     				let sel = rangy.getSelection();
     				let range = sel.getRangeAt(0);
 
@@ -97,7 +97,7 @@ export default class Editor extends React.Component {
 	}
 	insertMentionTarget(mentionData){
 		console.log(mentionData);
-		let editor = React.findDOMNode(this.refs.editor);
+		let editor = this.refs.editor;
 		let sel = rangy.getSelection();
         let formatter = this.props.formatter;
 		if (__store.bookmark) {

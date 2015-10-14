@@ -8,5 +8,5 @@
 
  var Demo = require('./MentionDemo');
  var React = require('react');
- 
- React.render(<Demo/>,  document.getElementById('UXCoreDemo'));
+
+ ReactDOM.render(<Demo/>,  document.getElementById('UXCoreDemo'));
