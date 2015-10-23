@@ -1,6 +1,8 @@
 # History
 
 ---
+## 0.1.4
+`FIXED` sometimes the panel does not show
 
 ## 0.1.3
 

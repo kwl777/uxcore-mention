@@ -54,7 +54,8 @@ export default class Mention extends React.Component {
         console.log(`matcher run with: ${str}`);
         let {source, matchRange} = this.props;
         this.setState({
-            panelVisible: false
+            panelVisible: false,
+            mentionList: []
         });
         if (str.length >= matchRange[0] && str.length <= matchRange[1]) {
             if (Array.isArray(source)) {
