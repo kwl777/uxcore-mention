@@ -18,13 +18,14 @@ $ gulp server
 ## Usage
 
 ### demo
-http://uxcore.github.io/uxcore/components/mention/
+http://uxcore.github.io/components/mention/
 
 ### API
 
 * formatter(arr): 对从数据源取到的数据进行处理，返回处理后的结果数组。
 * panelFormatter(obj): 自定义选择菜单的结构，返回html。
 * mentionFormatter(obj): 自定义插入编辑器中的文本，返回字符串。
+* onChange(e, value): onChange事件。
 
 ### props
 
@@ -39,3 +40,4 @@ http://uxcore.github.io/uxcore/components/mention/
 | formatter | format the data form source | function | |
 | panelFormatter | customize whats's in your select panel with this function | function | |
 | mentionFormatter | customize what's in your mention node with this function | function | |
+| onChange | trigger when editor content change | function | |

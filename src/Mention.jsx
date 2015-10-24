@@ -51,7 +51,7 @@ export default class Mention extends React.Component {
         }.bind(this), this.props.delay);
     }
     _matcher(str){
-        console.log(`matcher run with: ${str}`);
+        // console.log(`matcher run with: ${str}`);
         let {source, matchRange} = this.props;
         this.setState({
             panelVisible: false,
@@ -127,7 +127,8 @@ export default class Mention extends React.Component {
                     matcher={this.runMatcher.bind(this)}
                     mentionTarget={this.state.target}
                     setCursorPos={this.setPanelPos.bind(this)}
-                    formatter={this.props.mentionFormatter}
+                    formatter={props.mentionFormatter}
+                    onChange={props.onChange}
                     >{props.children}</Editor>
                 <Panel
                     prefixCls={prefixCls}
@@ -135,7 +136,7 @@ export default class Mention extends React.Component {
                     idx={this.state.panelIdx}
                     list={this.state.mentionList}
                     onSelect={this.selectItem.bind(this)}
-                    formatter={this.props.panelFormatter}
+                    formatter={props.panelFormatter}
                     style={panelPosition}></Panel>
             </div>
         );
@@ -154,7 +155,8 @@ Mention.propType = {
     matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
     formatter: React.PropTypes.func,
     panelFormatter: React.PropTypes.func,
-    mentionFormatter: React.PropTypes.func
+    mentionFormatter: React.PropTypes.func,
+    onChange: React.PropTypes.func
 };
 Mention.defaultProps = {
     prefixCls: 'kuma-mention',
@@ -171,5 +173,6 @@ Mention.defaultProps = {
     },
     mentionFormatter: function(data){
         return `@${data.text}`;
-    }
+    },
+    onChange: function(e, value){}
 };

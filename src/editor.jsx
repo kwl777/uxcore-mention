@@ -18,8 +18,7 @@ export default class Editor extends React.Component {
 		super(props);
 	}
 	componentDidMount(){
-		let editor = this.refs.editor;
-		console.log(editor);
+		// let editor = this.refs.editor;
 	}
     componentWillReceiveProps(nextProps){
         if (nextProps.mentionTarget &&
@@ -60,7 +59,8 @@ export default class Editor extends React.Component {
     				sel.setSingleRange(range);
                 }
 				break;
-			default:
+			// default:
+            //     this.props.onChange('xxx');
 				break;
 		}
 	}
@@ -96,7 +96,7 @@ export default class Editor extends React.Component {
         }
 	}
 	insertMentionTarget(mentionData){
-		console.log(mentionData);
+		// console.log(mentionData);
 		let editor = this.refs.editor;
 		let sel = rangy.getSelection();
         let formatter = this.props.formatter;
@@ -129,11 +129,31 @@ export default class Editor extends React.Component {
 				onKeyUp={this.onKeyup.bind(this)}
 				onKeyDown={this.onKeydown.bind(this)}
 				contentEditable={contentEditableValue}
+                onInput={this.emitChange.bind(this)}
+                onBlur={this.emitChange.bind(this)}
 				style={style}>
 				{this.props.children}
 			</div>
 		);
 	}
+    emitChange(e){
+        let editor = this.refs.editor;
+        let nodes = editor.childNodes;
+        let content = '';
+        for(let i = 0, len = nodes.length; i < len; i += 1) {
+            if (nodes[i].nodeType === 1) {
+                let tagName = nodes[i].tagName.toLowerCase();
+                if (tagName === 'input') {
+                    content += ' ' + nodes[i].value + ' ';
+                } else if (tagName === 'br') {
+                    content += '\n';
+                }
+            } else if (nodes[i].nodeType === 3) {
+                content += nodes[i].textContent || nodes[i].nodeValue;
+            }
+        }
+        this.props.onChange(e, content);
+    }
 }
 Editor.displayName = 'uxcore-mention-editor';
 Editor.propType = {
@@ -144,7 +164,8 @@ Editor.propType = {
 	matcher: React.PropTypes.func,
 	setCursorPos: React.PropTypes.func,
 	panelVisible: React.PropTypes.bool,
-    formatter: React.PropTypes.func
+    formatter: React.PropTypes.func,
+    onChange: React.PropTypes.func
 };
 Editor.defaultProps = {
     prefixCls: '',
@@ -154,5 +175,6 @@ Editor.defaultProps = {
 	matcher: function(){},
 	setCursorPos: function(){},
     panelVisible: false,
-    formatter: function(){}
+    formatter: function(){},
+    onChange: function(){}
 };
