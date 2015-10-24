@@ -1,6 +1,9 @@
 # History
 
 ---
+## 0.1.5
+`NEW` add onChange method
+
 ## 0.1.4
 `FIXED` sometimes the panel does not show
 
