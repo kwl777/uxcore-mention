@@ -13,7 +13,7 @@
  * Build date: %%build:date%%
  */
 // import rangy from 'rangy';
-
+if (typeof rangy !== 'undefined') {
 rangy.createModule("Position", ["WrappedSelection"], function(api, module) {
     //var log = log4javascript.getLogger("rangy.position");
 
@@ -530,3 +530,4 @@ rangy.createModule("Position", ["WrappedSelection"], function(api, module) {
     api.createRangeFromPoints = createRangeFromPoints;
     api.moveSelectionToPoints = moveSelectionToPoints;
 });
+}
