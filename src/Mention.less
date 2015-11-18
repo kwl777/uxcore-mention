@@ -10,7 +10,14 @@
 
 .@{mentionClassPrefix} {
 	&-editor {
-		border: 1px solid #ccc;
+		padding: 7px 10px;
+		border: 1px solid @input-border;
+		border-radius: @input-radius;
+		color: @input-color;
+		&:focus {
+			border-color: @input-border-focus;
+			outline: 0 none;
+		}
 	}
 	&-node {
 		padding: 0 2px;
