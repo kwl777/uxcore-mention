@@ -46,9 +46,9 @@ export default class Mention extends React.Component {
     }
     runMatcher(str){
         __matchTimer && clearTimeout(__matchTimer);
-        __matchTimer = setTimeout(() => {
+        __matchTimer = setTimeout((() => {
             this._matcher(str);
-        }.bind(this), this.props.delay);
+        }).bind(this), this.props.delay);
     }
     _matcher(str){
         // console.log(`matcher run with: ${str}`);
