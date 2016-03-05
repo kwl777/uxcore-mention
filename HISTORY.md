@@ -1,6 +1,10 @@
 # History
 
 ---
+
+## 0.1.8
+`CHANGED` update scaffold
+
 ## 0.1.5
 `NEW` add onChange method
 

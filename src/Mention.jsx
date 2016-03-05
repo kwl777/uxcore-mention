@@ -2,6 +2,7 @@
  * @author: vincent.bian
  */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Panel from './panel.jsx';
 import Editor from './editor.jsx';
 import {KEYCODE} from './keycode';
