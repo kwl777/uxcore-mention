@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Panel from './panel.jsx';
-import Editor from './editor.jsx';
+import Panel from './panel';
+import Editor from './editor';
 import {KEYCODE} from './keycode';
 import {getScrollOffset} from './util';
 

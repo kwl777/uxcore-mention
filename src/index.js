@@ -6,4 +6,4 @@
  * All rights reserved.
  */
 
-module.exports = require('./Mention.jsx');
+module.exports = require('./Mention');

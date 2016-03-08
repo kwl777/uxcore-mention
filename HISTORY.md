@@ -2,6 +2,9 @@
 
 ---
 
+## 0.1.9
+`FIXED` fix require(xxx.jsx) bug when build
+
 ## 0.1.8
 `CHANGED` update scaffold
 
