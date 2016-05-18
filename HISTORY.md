@@ -2,6 +2,9 @@
 
 ---
 
+## 0.1.10
+`FIXED` add scroll when content overflow
+
 ## 0.1.9
 `FIXED` fix require(xxx.jsx) bug when build
 
