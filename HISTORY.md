@@ -1,6 +1,8 @@
 # History
 
 ---
+## 0.2.0
+`NEW` add `placeholder` supports
 
 ## 0.1.10
 `FIXED` add scroll when content overflow

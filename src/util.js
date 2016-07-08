@@ -34,4 +34,4 @@ function getScrollOffset(){
 	return offset;
 }
 
-export {parseStrByDelimiter, getScrollOffset};
+export { parseStrByDelimiter, getScrollOffset };

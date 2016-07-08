@@ -5,8 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Panel from './panel';
 import Editor from './editor';
-import {KEYCODE} from './keycode';
-import {getScrollOffset} from './util';
+import { KEYCODE } from './keycode';
+import { getScrollOffset } from './util';
 
 let __matchTimer;
 
@@ -117,12 +117,13 @@ export default class Mention extends React.Component {
             left: this.state.cursorPosition.x,
             top: this.state.cursorPosition.y
         };
-        let {width, height, prefixCls} = props;
+        let { width, height, prefixCls, placeholder } = props;
     	return (
             <div onKeyUp={this.onKeyup.bind(this)}>
                 <Editor
                     width={width}
                     height={height}
+                    placeholder={placeholder}
                     prefixCls={prefixCls}
                     panelVisible={this.state.panelVisible}
                     matcher={this.runMatcher.bind(this)}
@@ -130,7 +131,8 @@ export default class Mention extends React.Component {
                     setCursorPos={this.setPanelPos.bind(this)}
                     formatter={props.mentionFormatter}
                     onChange={props.onChange}
-                    >{props.children}</Editor>
+                    value={props.children}
+                    ></Editor>
                 <Panel
                     prefixCls={prefixCls}
                     visible={this.state.panelVisible}
@@ -148,6 +150,7 @@ Mention.propType = {
     prefixCls: React.PropTypes.string,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    placeholder: React.PropTypes.string,
     source: React.PropTypes.oneOfType([
         React.PropTypes.array,
         React.PropTypes.func
@@ -163,6 +166,7 @@ Mention.defaultProps = {
     prefixCls: 'kuma-mention',
     width: 200,
     height: 100,
+    placeholder: '',
     source: [],
     delay: 100,
     matchRange: [2, 8],

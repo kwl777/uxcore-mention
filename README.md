@@ -1,24 +1,70 @@
 # uxcore-mention
 
----
+React mention
 
-## TL;DR
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Dependency Status][dep-image]][dep-url]
+[![devDependency Status][devdep-image]][devdep-url] 
+[![NPM downloads][downloads-image]][npm-url]
 
-mention ui component for react
+[![Sauce Test Status][sauce-image]][sauce-url]
 
-#### setup develop environment
+[npm-image]: http://img.shields.io/npm/v/uxcore-mention.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/uxcore-mention
+[travis-image]: https://img.shields.io/travis/uxcore/uxcore-mention.svg?style=flat-square
+[travis-url]: https://travis-ci.org/uxcore/uxcore-mention
+[coveralls-image]: https://img.shields.io/coveralls/uxcore/uxcore-mention.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/uxcore/uxcore-mention?branch=master
+[dep-image]: http://img.shields.io/david/uxcore/uxcore-mention.svg?style=flat-square
+[dep-url]: https://david-dm.org/uxcore/uxcore-mention
+[devdep-image]: http://img.shields.io/david/dev/uxcore/uxcore-mention.svg?style=flat-square
+[devdep-url]: https://david-dm.org/uxcore/uxcore-mention#info=devDependencies
+[downloads-image]: https://img.shields.io/npm/dm/uxcore-mention.svg
+[sauce-image]: https://saucelabs.com/browser-matrix/uxcore-mention.svg
+[sauce-url]: https://saucelabs.com/u/uxcore-mention
+
+
+### Development
 
 ```sh
-$ git clone https://github.com/uxcore/uxcore-mention
-$ cd mention
-$ npm install
-$ gulp server
+git clone https://github.com/uxcore/uxcore-mention
+cd uxcore-mention
+npm install
+npm run server
 ```
 
-## Usage
+if you'd like to save your install time，you can use uxcore-tools globally.
 
-### demo
-http://uxcore.github.io/components/mention/
+```sh
+npm install uxcore-tools -g
+git clone https://github.com/uxcore/uxcore-mention
+cd uxcore-mention
+npm install
+npm run dep
+npm run start
+```
+
+### Test Case
+
+```sh
+npm run test
+```
+
+### Coverage
+
+```sh
+npm run coverage
+```
+
+## Demo
+
+http://uxcore.github.io/components/mention
+
+## Contribute
+
+Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/CONTRIBUTING.md) for details.
 
 ### API
 
@@ -29,11 +75,12 @@ http://uxcore.github.io/components/mention/
 
 ### props
 
-|参数|说明|类型|默认值|
+|name|Description|Type|Default|
 |---|----|---|------|
 | prefixCls | class prefix | string | kuma-mention |
 | width | editor's width | number | 200 |
 | height | editor's height | number | 100 |
+| placeholder | placeholder | string | '' |
 | source | data source for mention content | array or function | [] |
 | delay | debounce of the request to data source | number | 100 |
 | matchRange | only match the string after delimiter which the length in this range | array | [2, 8] |

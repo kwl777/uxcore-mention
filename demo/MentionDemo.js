@@ -268,7 +268,8 @@ export default class Demo extends React.Component {
                     source={getPersonData}
                     formatter={personDataFormatter}
                     panelFormatter={personPanelFormatter}
-                    mentionFormatter={personMentionFormatter}>
+                    mentionFormatter={personMentionFormatter}
+                    onChange={function(e, content){console.log('change:', e, content);}}>
                 </Mention>
             </div>
         );
