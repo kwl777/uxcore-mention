@@ -359,8 +359,7 @@ rangy.createModule("Position", ["WrappedSelection"], function(api, module) {
 
 
                             }
-
-                            console.log(nativeRange, nativeRange.getClientRects(), nativeRange.getBoundingClientRect());
+                            
                             if (this.collapsed && this.startContainer.nodeType === 1 && this.startOffset < this.startContainer.childNodes.length) {
                                 var n = this.startContainer.childNodes[this.startOffset];
                                 if (n.getClientRects) {

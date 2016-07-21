@@ -2,9 +2,9 @@
  * example index
  */
 import React from 'react';
-import Mention from '../src/index';
+import Mention, { ContenteditableEditor, TextareaEditor, InputEditor } from '../src/index';
 
-function formatter(data){
+function formatter(data) {
     return data.map((item) => {
         return {
             text: item
@@ -248,18 +248,57 @@ function personMentionFormatter(data){
 }
 
 export default class Demo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            defaultContent: 'default content',
+            basicContent: 'basic content',
+            personContent: '',
+            readOnly: false,
+        };
+    }
+    onToggleReadOnly() {
+        this.setState({
+            readOnly: !this.state.readOnly,
+        });
+    }
     render(){
         return (
             <div>
-                <h1>BASE:</h1>
+                <div>
+                    <label><input type="checkbox" checked={this.state.readOnly} onChange={this.onToggleReadOnly.bind(this)} />只读</label>
+                </div>
+                <h1>BASIC:</h1>
                 <Mention
-                    width="300"
-                    height="150"
                     matchRange={[1, 6]}
                     source={source}
+                    onChange={(e, content) => {
+                        // console.log('change:', content);
+                        this.setState({
+                            basicContent: content
+                        });
+                    }}
                     formatter={formatter}>
-                    default content
+                    <ContenteditableEditor
+                        width={250}
+                        height={150}
+                        readOnly={this.state.readOnly}
+                        placeholder="placeholder"
+                        defaultValue={this.state.defaultContent} />
+                    <TextareaEditor
+                        width={250}
+                        height={100}
+                        readOnly={this.state.readOnly}
+                        placeholder="placeholder"
+                        defaultValue={this.state.defaultContent} />
+                    <InputEditor
+                        width={250}
+                        height={30}
+                        readOnly={this.state.readOnly}
+                        placeholder="placeholder"
+                        defaultValue={this.state.defaultContent} />
                 </Mention>
+                <div><label>CONTENT:</label><textarea className="kuma-textarea" readOnly value={this.state.basicContent} style={{overflow: 'scroll'}}></textarea></div>
                 <h1>SELECT PERSON:</h1>
                 <Mention
                     width="400"
@@ -268,9 +307,16 @@ export default class Demo extends React.Component {
                     source={getPersonData}
                     formatter={personDataFormatter}
                     panelFormatter={personPanelFormatter}
-                    mentionFormatter={personMentionFormatter}
-                    onChange={function(e, content){console.log('change:', e, content);}}>
+                    readOnly={this.state.readOnly}
+                    onChange={(e, content) => {
+                        this.setState({
+                            personContent: content
+                        });
+                    }}>
+                    <ContenteditableEditor
+                        formatter={personMentionFormatter} />
                 </Mention>
+                <div><label>CONTENT:</label><textarea className="kuma-textarea" readOnly value={this.state.personContent} style={{overflow: 'scroll'}}></textarea></div>
             </div>
         );
     }
