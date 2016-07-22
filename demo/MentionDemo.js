@@ -266,7 +266,7 @@ export default class Demo extends React.Component {
         return (
             <div>
                 <div>
-                    <label><input type="checkbox" checked={this.state.readOnly} onChange={this.onToggleReadOnly.bind(this)} />只读</label>
+                    <label><input ref="readOnlyCheckbox" type="checkbox" checked={this.state.readOnly} onChange={this.onToggleReadOnly.bind(this)} />只读</label>
                 </div>
                 <h1>BASIC:</h1>
                 <Mention
