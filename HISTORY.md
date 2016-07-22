@@ -1,6 +1,12 @@
 # History
 
 ---
+
+## 0.3.0
+`CHANGED` Separate editor from mention component with three types
+`ADDED` props `delimiter` `readOnly` `defaultValue` `onAdd`
+
+
 ## 0.2.0
 `NEW` add `placeholder` supports
 
