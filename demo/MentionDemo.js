@@ -283,31 +283,27 @@ export default class Demo extends React.Component {
                         width={250}
                         height={150}
                         readOnly={this.state.readOnly}
-                        placeholder="placeholder"
+                        placeholder="contenteditable editor placeholder"
                         defaultValue={this.state.defaultContent} />
                     <TextareaEditor
                         width={250}
                         height={100}
                         readOnly={this.state.readOnly}
-                        placeholder="placeholder"
+                        placeholder="textarea editor placeholder"
                         defaultValue={this.state.defaultContent} />
                     <InputEditor
                         width={250}
                         height={30}
                         readOnly={this.state.readOnly}
-                        placeholder="placeholder"
+                        placeholder="input editor placeholder"
                         defaultValue={this.state.defaultContent} />
                 </Mention>
-                <div><label>CONTENT:</label><textarea className="kuma-textarea" readOnly value={this.state.basicContent} style={{overflow: 'scroll'}}></textarea></div>
                 <h1>SELECT PERSON:</h1>
                 <Mention
-                    width="400"
-                    height="200"
                     matchRange={[2, 6]}
                     source={getPersonData}
                     formatter={personDataFormatter}
                     panelFormatter={personPanelFormatter}
-                    readOnly={this.state.readOnly}
                     onChange={(e, content) => {
                         this.setState({
                             personContent: content
@@ -316,7 +312,6 @@ export default class Demo extends React.Component {
                     <ContenteditableEditor
                         formatter={personMentionFormatter} />
                 </Mention>
-                <div><label>CONTENT:</label><textarea className="kuma-textarea" readOnly value={this.state.personContent} style={{overflow: 'scroll'}}></textarea></div>
             </div>
         );
     }

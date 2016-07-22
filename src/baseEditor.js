@@ -47,7 +47,9 @@ export default class BaseEditor extends React.Component {
     }
   }
   insertMentionData(mentionData) {
-    const { formatter } = this.props;
-    this.insert(formatter(mentionData));
+    const { formatter, onAdd } = this.props;
+    const insertContent = formatter(mentionData);
+    this.insert(insertContent);
+    onAdd(insertContent, mentionData);
   }
 }

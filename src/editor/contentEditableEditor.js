@@ -1,7 +1,5 @@
 import React from 'react';
 import BaseEditor from '../baseEditor';
-import classNames from 'classnames';
-import { KEYCODE } from '../keycode';
 import { parseStrByDelimiter } from '../util';
 
 const MutationObserver = window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
@@ -60,12 +58,13 @@ export default class ContentEditableEditor extends BaseEditor {
   }
 
   handleDefaultKeyup(e) {
+    const { delimiter } = this.props;
     const sel = rangy.getSelection();
     const range = sel.getRangeAt(0);
     if (range.commonAncestorContainer.nodeType === 3) {
       range.setStart(range.commonAncestorContainer, 0);
       const originStr = range.toString();
-      const str = parseStrByDelimiter(originStr, '@');
+      const str = parseStrByDelimiter(originStr, delimiter);
       // send str to matcher
       this.props.matcher(str);
       if (str) {
@@ -186,8 +185,10 @@ ContentEditableEditor.propType = {
   placeholder: React.PropTypes.string,
   formatter: React.PropTypes.func,
   onChange: React.PropTypes.func,
+  onAdd: React.PropTypes.func,
   defaultValue: React.PropTypes.string,
   readOnly: React.PropTypes.bool,
+  delimiter: React.PropTypes.string,
 };
 ContentEditableEditor.defaultProps = {
   prefixCls: '',
@@ -196,6 +197,8 @@ ContentEditableEditor.defaultProps = {
   placeholder: '',
   formatter: (data) => `@${data.text}`,
   onChange: () => {},
+  onAdd: () => {},
   defaultValue: '',
   readOnly: false,
+  delimiter: '@',
 };

@@ -1,7 +1,5 @@
 import React from 'react';
 import BaseEditor from '../baseEditor';
-import classNames from 'classnames';
-import { KEYCODE } from '../keycode';
 import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../util';
 
 export default class InputEditor extends BaseEditor {
@@ -14,37 +12,25 @@ export default class InputEditor extends BaseEditor {
       end: 0,
     };
   }
-  onKeyup(e) {
-    const { panelVisible } = this.props;
+  handleDefaultKeyup() {
     const { editor } = this.refs;
-    switch (e.keyCode) {
-      case KEYCODE.UP:
-      case KEYCODE.DOWN:
-        if (panelVisible) {
-          e.preventDefault();
-        }
-        break;
-      case KEYCODE.ENTER:
-        break;
-      default:
-        const offset = getCaretOffset(editor);
-        let value = editor.value;
-        value = value.replace(/(\r\n)|\n|\r/g, '\n');
-        const originStr = value.slice(0, offset.end);
-        const str = parseStrByDelimiter(originStr, '@');
-        this.props.matcher(str);
-        this.selectionPosition = {
-          start: offset.start - str.length - 1,
-          end: offset.end,
-        };
-        if (str) {
-          const position = getCaretPosition(editor);
-          this.props.setCursorPos({
-            x: position.left,
-            y: position.top,
-          });
-        }
-        break;
+    const { delimiter } = this.props;
+    const offset = getCaretOffset(editor);
+    let value = editor.value;
+    value = value.replace(/(\r\n)|\n|\r/g, '\n');
+    const originStr = value.slice(0, offset.end);
+    const str = parseStrByDelimiter(originStr, delimiter);
+    this.props.matcher(str);
+    this.selectionPosition = {
+      start: offset.start - str.length - 1,
+      end: offset.end,
+    };
+    if (str) {
+      const position = getCaretPosition(editor);
+      this.props.setCursorPos({
+        x: position.left,
+        y: position.top,
+      });
     }
   }
   insert(mentionContent) {
@@ -81,7 +67,7 @@ export default class InputEditor extends BaseEditor {
     return (
       <div className={this.props.prefixCls}>
         <input
-          className={`${this.props.prefixCls}-editor`}
+          className={`${this.props.prefixCls}-editor kuma-input`}
           ref="editor"
           style={style}
           readOnly={readOnly}
@@ -102,8 +88,10 @@ InputEditor.propType = {
   placeholder: React.PropTypes.string,
   formatter: React.PropTypes.func,
   onChange: React.PropTypes.func,
+  onAdd: React.PropTypes.func,
   defaultValue: React.PropTypes.string,
   readOnly: React.PropTypes.bool,
+  delimiter: React.PropTypes.string,
 };
 InputEditor.defaultProps = {
   prefixCls: '',
@@ -112,6 +100,8 @@ InputEditor.defaultProps = {
   placeholder: '',
   formatter: (data) => ` @${data.text} `,
   onChange: () => {},
+  onAdd: () => {},
   defaultValue: '',
   readOnly: false,
+  delimiter: '@',
 };

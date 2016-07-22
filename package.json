@@ -1,7 +1,7 @@
 {
  "name": "uxcore-mention",
- "version": "0.2.0",
- "description": "mention ui component for react",
+ "version": "0.3.0",
+ "description": "Mention anywhere with this component",
  "main": "build/index.js",
  "scripts": {
   "start": "uxcore-tools run start",

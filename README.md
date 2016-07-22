@@ -1,6 +1,7 @@
 # uxcore-mention
 
-React mention
+React mention.
+Mention anywhere.
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -101,7 +102,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | delay | debounce of the request to data source | number | 100 |
 | matchRange | only match the string after delimiter which the length in this range | array | [2, 8] |
 | formatter | format the data form source | function | |
-| mentionFormatter | customize what's in your mention node with this function | function | |
+| panelFormatter | customize the panel display | function | |
 | onChange | trigger when editor content change | function | |
 
 #### ContentEditableEditor
@@ -113,9 +114,12 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | height | editor's height | number | 100 |
 | placeholder | placeholder | string | '' |
 | formatter | customize whats's in your select panel with this function | function | |
-| onChange | trigger when editor content change | function | |
+| onChange | Callback invoked when the editor's content has been changed | function | |
+| onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
+| delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |
+
 
 #### TextareaEditor
 
@@ -126,9 +130,11 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | height | editor's height | number | 100 |
 | placeholder | placeholder | string | '' |
 | formatter | customize whats's in your select panel with this function | function | |
-| onChange | trigger when editor content change | function | |
+| onChange | Callback invoked when the editor's content has been changed | function | |
+| onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
+| delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |
 
 #### InputEditor
 
@@ -136,9 +142,11 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 |---|----|---|------|
 | prefixCls | class prefix | string | kuma-mention |
 | width | editor's width | number | 200 |
-| height | editor's height | number | 100 |
+| height | editor's height | number | 30 |
 | placeholder | placeholder | string | '' |
 | formatter | customize whats's in your select panel with this function | function | |
-| onChange | trigger when editor content change | function | |
+| onChange | Callback invoked when the editor's content has been changed | function | |
+| onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
+| delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |

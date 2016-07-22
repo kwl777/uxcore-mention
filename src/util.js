@@ -81,32 +81,51 @@ function getElementOffset(element) {
   };
 }
 
-function getStyle(element, name) {
-  if (window.getComputedStyle) {
-    return window.getComputedStyle(element, null)[name];
-  }
-  return element.currentStyle[name];
-}
+// The properties that we copy into a mirrored div.
+// Note that some browsers, such as Firefox,
+// do not concatenate properties, i.e. padding-top, bottom etc. -> padding,
+// so we have to do every single property specifically.
+const properties = [
+  'direction',  // RTL support
+  'boxSizing',
+  'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+  'height',
+  'overflowX',
+  'overflowY',  // copy the scrollbar for IE
 
-function cloneStyle(element) {
-  const rstyle = /^(number|string)$/;
-  const rname = /^(content|outline|outlineWidth)$/;
-  // Opera: content; IE8:outline && outlineWidth
-  let cssText = [];
-  const sStyle = element.style;
-  for (let propName in sStyle) {
-    if (!rname.test(propName)) {
-      const propValue = getStyle(element, propName);
-      if (propValue !== '' && rstyle.test(typeof propValue)) {
-        // camelcase to hyphen
-        propName = propName.replace(/([A-Z])/g, '-$1').toLowerCase();
-        cssText.push(`${propName}:${propValue};`);
-      }
-    }
-  }
-  cssText = cssText.join('');
-  return cssText;
-}
+  'borderTopWidth',
+  'borderRightWidth',
+  'borderBottomWidth',
+  'borderLeftWidth',
+  'borderStyle',
+
+  'paddingTop',
+  'paddingRight',
+  'paddingBottom',
+  'paddingLeft',
+
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/font
+  'fontStyle',
+  'fontVariant',
+  'fontWeight',
+  'fontStretch',
+  'fontSize',
+  'fontSizeAdjust',
+  'lineHeight',
+  'fontFamily',
+
+  'textAlign',
+  'textTransform',
+  'textIndent',
+  'textDecoration',  // might not make a difference, but better be safe
+
+  'letterSpacing',
+  'wordSpacing',
+
+  'tabSize',
+  'MozTabSize',
+
+];
 
 function getCaretPosition(element) {
   let left;
@@ -120,7 +139,6 @@ function getCaretPosition(element) {
     const SHADOWEDITOR = '__shadow_editor__';
     const SHADOWEDITORTEXT = '__shadow_editor_text__';
     const SHADOWEDITORCARET = '__shadow_editor_caret__';
-    const WHITESPACE = '<span style="white-space:pre-wrap;"> </span>';
     const shadowEditor = element[SHADOWEDITOR] || document.createElement('div');
     const shadowEditorCaret = element[SHADOWEDITORCARET] || document.createElement('span');
     const shadowEditorText = element[SHADOWEDITORTEXT] || document.createElement('span');
@@ -135,21 +153,33 @@ function getCaretPosition(element) {
       shadowEditor.appendChild(shadowEditorCaret);
       document.body.appendChild(shadowEditor);
       // set shadow element's style
-      shadowEditorCaret.innerHTML = '|';
-      const SHADOWELEMENTSTYLE = 'display:inline-block;overflow:hidden;z-index:-999;word-wrap:break-word;word-break:break-all;';
-      shadowEditorCaret.style.cssText = `width:0;${SHADOWELEMENTSTYLE}`;
-      shadowEditor.style.cssText = `${cloneStyle(element)};visibility:hidden;position:absolute;${SHADOWELEMENTSTYLE}`;
+      const style = shadowEditor.style;
+      const computed = window.getComputedStyle ? getComputedStyle(element) : element.currentStyle;  // currentStyle for IE < 9
+
+      if (element.nodeName != 'INPUT') {
+        // only for textarea
+        style.whiteSpace = 'pre-wrap';
+        style.wordWrap = 'break-word';
+      } else {
+        style.whiteSpace = 'nowrap';
+      }
+
+      style.position = 'absolute';
+      style.overflow = 'hidden';
+      style.visibility = 'hidden';
+      properties.forEach((prop) => {
+        style[prop] = computed[prop];
+      });
+
+      shadowEditorCaret.textContent = '|';
+      shadowEditorCaret.style.cssText = 'display:inline-block;width:0;overflow:hidden;word-wrap:break-word;word-break:break-all;';
     }
     const offset = getElementOffset(element);
     shadowEditor.style.top = `${offset.top}px`;
     shadowEditor.style.left = `${offset.left}px`;
     const index = element.selectionEnd;
-    const SHADOWEDITORCONTENT = element.value.substring(0, index)
-      .replace(/</g, '<')
-      .replace(/>/g, '>')
-      .replace(/\n/g, '<br/>')
-      .replace(/\s/g, WHITESPACE);
-    shadowEditorText.innerHTML = SHADOWEDITORCONTENT;
+    const SHADOWEDITORCONTENT = element.value.substring(0, index);
+    shadowEditorText.textContent = SHADOWEDITORCONTENT;
 
     shadowEditorCaret.style.display = 'inline-block';
     try { focusOffset = getElementOffset(shadowEditorCaret); } catch (e) { }

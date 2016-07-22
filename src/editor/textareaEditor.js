@@ -1,7 +1,5 @@
 import React from 'react';
 import BaseEditor from '../baseEditor';
-import classNames from 'classnames';
-import { KEYCODE } from '../keycode';
 import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../util';
 
 export default class TextareaEditor extends BaseEditor {
@@ -16,11 +14,12 @@ export default class TextareaEditor extends BaseEditor {
   }
   handleDefaultKeyup() {
     const { editor } = this.refs;
+    const { delimiter } = this.props;
     const offset = getCaretOffset(editor);
     let value = editor.value;
     value = value.replace(/(\r\n)|\n|\r/g, '\n');
     const originStr = value.slice(0, offset.end);
-    const str = parseStrByDelimiter(originStr, '@');
+    const str = parseStrByDelimiter(originStr, delimiter);
     this.props.matcher(str);
     this.selectionPosition = {
       start: offset.start - str.length - 1,
@@ -69,7 +68,7 @@ export default class TextareaEditor extends BaseEditor {
       <div className={this.props.prefixCls}>
         <textarea
           ref="editor"
-          className={`${this.props.prefixCls}-editor`}
+          className={`${this.props.prefixCls}-editor kuma-textarea`}
           style={style}
           readOnly={readOnly}
           placeholder={placeholder}
@@ -90,8 +89,10 @@ TextareaEditor.propType = {
   placeholder: React.PropTypes.string,
   formatter: React.PropTypes.func,
   onChange: React.PropTypes.func,
+  onAdd: React.PropTypes.func,
   defaultValue: React.PropTypes.string,
   readOnly: React.PropTypes.bool,
+  delimiter: React.PropTypes.string,
 };
 TextareaEditor.defaultProps = {
   prefixCls: '',
@@ -100,6 +101,8 @@ TextareaEditor.defaultProps = {
   placeholder: '',
   formatter: (data) => ` @${data.text} `,
   onChange: () => {},
+  onAdd: () => {},
   defaultValue: '',
   readOnly: false,
+  delimiter: '@',
 };
