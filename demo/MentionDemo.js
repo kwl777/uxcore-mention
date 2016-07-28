@@ -2,7 +2,8 @@
  * example index
  */
 import React from 'react';
-import Mention, { ContenteditableEditor, TextareaEditor, InputEditor } from '../src/index';
+import Tinymce from 'uxcore-tinymce';
+import Mention, { ContenteditableEditor, TextareaEditor, InputEditor, TinymceMention } from '../src/index';
 
 function formatter(data) {
     return data.map((item) => {
@@ -274,9 +275,9 @@ export default class Demo extends React.Component {
                     source={source}
                     onChange={(e, content) => {
                         // console.log('change:', content);
-                        this.setState({
-                            basicContent: content
-                        });
+                        // this.setState({
+                        //     basicContent: content
+                        // });
                     }}
                     formatter={formatter}>
                     <ContenteditableEditor
@@ -305,13 +306,20 @@ export default class Demo extends React.Component {
                     formatter={personDataFormatter}
                     panelFormatter={personPanelFormatter}
                     onChange={(e, content) => {
-                        this.setState({
-                            personContent: content
-                        });
                     }}>
                     <ContenteditableEditor
-                        formatter={personMentionFormatter} />
+                        mentionFormatter={personMentionFormatter} />
                 </Mention>
+                <h1>Tinymce</h1>
+                <TinymceMention
+                    insertMode={'TEXT_NODE'}
+                    source={getPersonData}
+                    formatter={personDataFormatter}
+                    mentionFormatter={personMentionFormatter}
+                    panelFormatter={personPanelFormatter}>
+                    <Tinymce
+                        placeholder={'tinymce placeholder'} />
+                </TinymceMention>
             </div>
         );
     }

@@ -63,6 +63,57 @@ npm run coverage
 
 http://uxcore.github.io/components/mention
 
+#### work width all kinds of editor
+
+```js
+import ReactDOM from 'react-dom';
+import Tinymce from 'uxcore-tinymce';
+import Mention, { ContenteditableEditor, TextareaEditor, InputEditor } from 'uxcore-mention';
+
+ReactDOM.render(
+  <div>
+    <Mention
+        source={source}
+        formatter={formatter}>
+        <ContenteditableEditor
+          width={250}
+          height={150}
+          placeholder="contenteditable editor placeholder" />
+        <TextareaEditor
+          width={250}
+          height={100}
+          placeholder="textarea editor placeholder" />
+        <InputEditor
+          placeholder="input editor placeholder" />
+    </Mention>
+  </div>
+  ,targetNode);
+```
+
+
+#### work with tinymce
+
+```js
+import ReactDOM from 'react-dom';
+import Tinymce from 'uxcore-tinymce';
+import Mention, { TinymceMention } from 'uxcore-mention';
+
+ReactDOM.render(
+  <div>
+    <TinymceMention
+          insertMode={'TEXT_NODE'}
+          source={getData}
+          formatter={dataFormatter}
+          mentionFormatter={mentionFormatter}
+          panelFormatter={panelFormatter}>
+          <Tinymce
+              placeholder={'tinymce placeholder'} />
+      </TinymceMention>
+  </div>
+  ,targetNode);
+```
+
+
 ## Contribute
 
 Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/CONTRIBUTING.md) for details.
@@ -71,24 +122,35 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 #### Mention
 
-* formatter(arr): 对从数据源取到的数据进行处理，返回处理后的结果数组。
-* panelFormatter(obj): 自定义选择菜单的结构，返回html。
+* formatter(arr): format the data form source.
+* panelFormatter(obj): customize the panel display.
 * onChange(e, value): onChange事件。
+
+#### TinymceMention
+
+* formatter(arr): format the data form source.
+* panelFormatter(obj): customize the panel display.
+* mentionFormatter(obj): customize the insert content with this function.
+* onChange(e, value): Callback invoked when the editor's content has been changed.
+* onAdd(display, originData): Callback invoked when a mention has been added.
 
 #### ContentEditableEditor
 
-* formatter(obj): 自定义插入编辑器中的文本，返回字符串。
-* onChange(e, value): onChange事件, 可覆盖 Mention 中的 onChange 。
+* mentionFormatter(obj): customize the insert content with this function.
+* onChange(e, value): Callback invoked when the editor's content has been changed.
+* onAdd(display, originData): Callback invoked when a mention has been added.
 
 #### TextareaEditor
 
-* formatter(obj): 自定义插入编辑器中的文本，返回字符串。
-* onChange(e, value): onChange事件, 可覆盖 Mention 中的 onChange 。
+* mentionFormatter(obj): customize the insert content with this function.
+* onChange(e, value): Callback invoked when the editor's content has been changed.
+* onAdd(display, originData): Callback invoked when a mention has been added.
 
 #### InputEditor
 
-* formatter(obj): 自定义插入编辑器中的文本，返回字符串。
-* onChange(e, value): onChange事件, 可覆盖 Mention 中的 onChange 。
+* mentionFormatter(obj): customize the insert content with this function.
+* onChange(e, value): Callback invoked when the editor's content has been changed.
+* onAdd(display, originData): Callback invoked when a mention has been added.
 
 
 ### props
@@ -103,7 +165,23 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | matchRange | only match the string after delimiter which the length in this range | array | [2, 8] |
 | formatter | format the data form source | function | |
 | panelFormatter | customize the panel display | function | |
-| onChange | trigger when editor content change | function | |
+| onChange | trigger when editor content change | function(e, value) | |
+
+#### TinymceMention
+
+|name|Description|Type|Default|
+|---|----|---|------|
+| prefixCls | class prefix | string | kuma-mention |
+| source | data source for mention content | array or function | [] |
+| delay | debounce of the request to data source | number | 100 |
+| matchRange | only match the string after delimiter which the length in this range | array | [2, 8] |
+| formatter | format the data form source | function | |
+| panelFormatter | customize the panel display | function | |
+| mentionFormatter | customize the insert content with this function | function | |
+| onChange | trigger when editor content change | function(e, value) | |
+| onAdd | Callback invoked when a mention has been added | function(display, originData) | |
+| insertMode | `ELEMENT_NODE` will insert mention content with a button, `TEXT_NODE` will insert with a text node | string | `ELEMENT_NODE` or `TEXT_NODE` |
+
 
 #### ContentEditableEditor
 
@@ -113,8 +191,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | width | editor's width | number | 200 |
 | height | editor's height | number | 100 |
 | placeholder | placeholder | string | '' |
-| formatter | customize whats's in your select panel with this function | function | |
-| onChange | Callback invoked when the editor's content has been changed | function | |
+| mentionFormatter | customize the insert content with this function | function | |
+| onChange | Callback invoked when the editor's content has been changed | function(e, value) | |
 | onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
@@ -129,8 +207,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | width | editor's width | number | 200 |
 | height | editor's height | number | 100 |
 | placeholder | placeholder | string | '' |
-| formatter | customize whats's in your select panel with this function | function | |
-| onChange | Callback invoked when the editor's content has been changed | function | |
+| mentionFormatter | customize the insert content with this function | function | |
+| onChange | Callback invoked when the editor's content has been changed | function(e, value) | |
 | onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
@@ -144,8 +222,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | width | editor's width | number | 200 |
 | height | editor's height | number | 30 |
 | placeholder | placeholder | string | '' |
-| formatter | customize whats's in your select panel with this function | function | |
-| onChange | Callback invoked when the editor's content has been changed | function | |
+| mentionFormatter | customize the insert content with this function | function | |
+| onChange | Callback invoked when the editor's content has been changed | function(e, value) | |
 | onAdd | Callback invoked when a mention has been added | function(display, originData) | |
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |

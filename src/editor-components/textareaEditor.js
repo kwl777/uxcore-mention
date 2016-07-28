@@ -1,8 +1,8 @@
 import React from 'react';
-import BaseEditor from '../baseEditor';
-import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../util';
+import BaseEditor from './baseEditor';
+import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../utils/util';
 
-export default class InputEditor extends BaseEditor {
+export default class TextareaEditor extends BaseEditor {
   constructor(props) {
     super(props);
   }
@@ -66,9 +66,9 @@ export default class InputEditor extends BaseEditor {
     };
     return (
       <div className={this.props.prefixCls}>
-        <input
-          className={`${this.props.prefixCls}-editor kuma-input`}
+        <textarea
           ref="editor"
+          className={`${this.props.prefixCls}-editor kuma-textarea`}
           style={style}
           readOnly={readOnly}
           placeholder={placeholder}
@@ -76,29 +76,30 @@ export default class InputEditor extends BaseEditor {
           onKeyUp={this.onKeyup.bind(this)}
           onFocus={this.onFocus.bind(this)}
           defaultValue={this.props.defaultValue}
-        />
+        >
+        </textarea>
       </div>
     );
   }
 }
-InputEditor.propType = {
+TextareaEditor.propType = {
   prefixCls: React.PropTypes.string,
   width: React.PropTypes.number,
   height: React.PropTypes.number,
   placeholder: React.PropTypes.string,
-  formatter: React.PropTypes.func,
+  mentionFormatter: React.PropTypes.func,
   onChange: React.PropTypes.func,
   onAdd: React.PropTypes.func,
   defaultValue: React.PropTypes.string,
   readOnly: React.PropTypes.bool,
   delimiter: React.PropTypes.string,
 };
-InputEditor.defaultProps = {
+TextareaEditor.defaultProps = {
   prefixCls: '',
   width: 200,
-  height: 30,
+  height: 100,
   placeholder: '',
-  formatter: (data) => ` @${data.text} `,
+  mentionFormatter: (data) => ` @${data.text} `,
   onChange: () => {},
   onAdd: () => {},
   defaultValue: '',

@@ -7,12 +7,11 @@ import Panel from '../src/panel';
 import MentionDemo from '../demo/MentionDemo';
 
 describe('Mention', () => {
-
-  let instance = TestUtils.renderIntoDocument(<MentionDemo />);
-  let ceditors = TestUtils.scryRenderedComponentsWithType(instance, ContenteditableEditor);
-  let teditor = TestUtils.findRenderedComponentWithType(instance, TextareaEditor);
-  let ieditor = TestUtils.findRenderedComponentWithType(instance, InputEditor);
-  let panels = TestUtils.scryRenderedComponentsWithType(instance, Panel);
+  const instance = TestUtils.renderIntoDocument(<MentionDemo />);
+  const ceditors = TestUtils.scryRenderedComponentsWithType(instance, ContenteditableEditor);
+  const teditor = TestUtils.findRenderedComponentWithType(instance, TextareaEditor);
+  const ieditor = TestUtils.findRenderedComponentWithType(instance, InputEditor);
+  const panels = TestUtils.scryRenderedComponentsWithType(instance, Panel);
 
   it('the contenteditable editor should be a div', (done) => {
     expect(ceditors[0].refs.editor.tagName.toLowerCase()).to.be('div');
@@ -29,23 +28,29 @@ describe('Mention', () => {
     done();
   });
 
-  it('enter the string @a should show select panel', (done) => {
-    // const charAt = {
-    //   key: '@',
-    //   keyCode: 64,
-    // };
-    // const charA = {
-    //   key: 'a',
-    //   keyCode: 97,
-    // };
-    // const editor = ceditors[0].refs.editor;
-    // Simulate.click(ceditors[0]);
-    // Simulate.keyDown(editor, charAt);
-    // Simulate.keyUp(editor, charAt);
-    // Simulate.keyDown(editor, charA);
-    // Simulate.keyUp(editor, charA);
-    // console.log(editor.textContent, panels[0].props.list);
-  });
+  // it('enter the string @a should show select panel', (done) => {
+  //   const charAt = {
+  //     key: '@',
+  //     keyCode: 64,
+  //     charCode: 64,
+  //   };
+  //   const charA = {
+  //     key: 'a',
+  //     keyCode: 97,
+  //     charCode: 97,
+  //   };
+  //   const editor = teditor.refs.editor;
+  //   Simulate.click(teditor);
+  //   Simulate.keyDown(editor, charAt);
+  //   editor.value = '@';
+  //   Simulate.change(editor);
+  //   Simulate.keyUp(editor, charAt);
+  //   Simulate.keyDown(editor, charA);
+  //   editor.value = '@a';
+  //   Simulate.change(editor);
+  //   Simulate.keyUp(editor, charA);
+  //   console.log(editor.value, panels[0].props.list);
+  // });
 
   it('the readOnly should work', (done) => {
     Simulate.change(instance.refs.readOnlyCheckbox);

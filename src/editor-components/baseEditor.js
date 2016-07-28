@@ -1,7 +1,7 @@
 import React from 'react';
-import { KEYCODE } from './keycode';
-import { parseStrByDelimiter } from './util';
-import './rangy-position';
+import { KEYCODE } from '../utils/keycode';
+import { parseStrByDelimiter } from '../utils/util';
+import '../utils/rangy-position';
 
 export default class BaseEditor extends React.Component {
   constructor(props) {
@@ -47,8 +47,8 @@ export default class BaseEditor extends React.Component {
     }
   }
   insertMentionData(mentionData) {
-    const { formatter, onAdd } = this.props;
-    const insertContent = formatter(mentionData);
+    const { mentionFormatter, onAdd } = this.props;
+    const insertContent = mentionFormatter(mentionData);
     this.insert(insertContent);
     onAdd(insertContent, mentionData);
   }

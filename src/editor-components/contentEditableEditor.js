@@ -1,6 +1,6 @@
 import React from 'react';
-import BaseEditor from '../baseEditor';
-import { parseStrByDelimiter } from '../util';
+import BaseEditor from './baseEditor';
+import { parseStrByDelimiter } from '../utils/util';
 
 const MutationObserver = window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
 
@@ -68,9 +68,11 @@ export default class ContentEditableEditor extends BaseEditor {
       // send str to matcher
       this.props.matcher(str);
       if (str) {
-        this.props.setCursorPos(range.getEndClientPos());
         // set range's start position before delimiter
         range.setStart(range.commonAncestorContainer, originStr.length - str.length - 1);
+        const pos = range.getEndClientPos();
+        // FIXME: ie8 will return error position in some case
+        this.props.setCursorPos(pos);
         // save range position
         this.STORE.bookmark = range.getBookmark(range.commonAncestorContainer);
       }
@@ -125,14 +127,14 @@ export default class ContentEditableEditor extends BaseEditor {
     let content = '';
     for (let i = 0, len = nodes.length; i < len; i += 1) {
       const node = nodes[i];
-      if (node.nodeType === Node.ELEMENT_NODE) {
+      if (node.nodeType === 1) {
         const tagName = node.tagName.toLowerCase();
         if (tagName === 'input') {
           content += ` ${node.value} `;
         } else if (tagName === 'br') {
           content += '\n';
         }
-      } else if (node.nodeType === Node.TEXT_NODE) {
+      } else if (node.nodeType === 3) {
         content += node.textContent || node.nodeValue;
       }
     }
@@ -183,7 +185,7 @@ ContentEditableEditor.propType = {
   width: React.PropTypes.number,
   height: React.PropTypes.number,
   placeholder: React.PropTypes.string,
-  formatter: React.PropTypes.func,
+  mentionFormatter: React.PropTypes.func,
   onChange: React.PropTypes.func,
   onAdd: React.PropTypes.func,
   defaultValue: React.PropTypes.string,
@@ -195,7 +197,7 @@ ContentEditableEditor.defaultProps = {
   width: 200,
   height: 100,
   placeholder: '',
-  formatter: (data) => `@${data.text}`,
+  mentionFormatter: (data) => `@${data.text}`,
   onChange: () => {},
   onAdd: () => {},
   defaultValue: '',
