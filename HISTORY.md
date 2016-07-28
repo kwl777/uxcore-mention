@@ -5,6 +5,7 @@
 ## 0.3.0
 `CHANGED` Separate editor from mention component with three types
 `ADDED` props `delimiter` `readOnly` `defaultValue` `onAdd`
+`NEW` add `tinymce` support
 
 
 ## 0.2.0
