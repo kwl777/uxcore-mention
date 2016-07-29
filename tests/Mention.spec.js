@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils, { Simulate } from 'react-addons-test-utils';
 import Mention, { ContenteditableEditor, TextareaEditor, InputEditor } from '../src';
-import Panel from '../src/panel';
+import Panel from '../src/components/Panel';
 import MentionDemo from '../demo/MentionDemo';
 
 describe('Mention', () => {
