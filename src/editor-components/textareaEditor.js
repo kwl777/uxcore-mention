@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseEditor from './baseEditor';
-import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../utils/util';
+import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset } from '../utils/util';
 
 export default class TextareaEditor extends BaseEditor {
   constructor(props) {

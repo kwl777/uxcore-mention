@@ -5,7 +5,6 @@ import React from 'react';
 import Panel from './Panel';
 import reactMixin from 'react-mixin';
 import { KEYCODE } from '../utils/keycode';
-import { getScrollOffset } from '../utils/util';
 import mentionMixin from './mentionMixin';
 
 let __matchTimer;
@@ -32,10 +31,9 @@ class Mention extends React.Component {
   }
 
   setPanelPos(pos) {
-    const offset = getScrollOffset();
     const position = {
-      x: pos.x + offset.x,
-      y: pos.y + offset.y,
+      x: pos.x,
+      y: pos.y,
     };
     this.setState({
       cursorPosition: position,

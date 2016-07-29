@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.1
+
+`FIXED` fixed the select panel's position error when the page is scrolled.
+
 ## 0.3.0
 `CHANGED` Separate editor from mention component with three types
 

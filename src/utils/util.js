@@ -186,6 +186,9 @@ function getCaretPosition(element) {
     shadowEditorCaret.style.display = 'none';
     left = focusOffset.left - element.scrollLeft;
     top = focusOffset.top - element.scrollTop;
+    const winOffset = getScrollOffset();
+    left -= winOffset.x;
+    top -= winOffset.y;
   }
   return {
     left,

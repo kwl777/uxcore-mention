@@ -194,10 +194,10 @@ class TinymceMention extends BaseEditor {
 
   setPanelPos(pos) {
     const editorOffset = this.editor.contentAreaContainer.getBoundingClientRect();
-    const offset = getScrollOffset();
+    // const offset = getScrollOffset();
     const position = {
-      x: pos.left + offset.x + editorOffset.left,
-      y: pos.top + offset.y + editorOffset.top,
+      x: pos.left + editorOffset.left,
+      y: pos.top + editorOffset.top,
     };
     this.setState({
       cursorPosition: position,
