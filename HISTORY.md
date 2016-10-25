@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.2
+`FIXED` fixed 'onChange' not trigger in inputEditor & textareaEditor.  
+
 ## 0.3.1
 
 `FIXED` fixed the select panel's position error when the page is scrolled.

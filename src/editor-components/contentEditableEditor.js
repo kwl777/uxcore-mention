@@ -180,16 +180,57 @@ export default class ContentEditableEditor extends BaseEditor {
     );
   }
 }
-ContentEditableEditor.propType = {
+ContentEditableEditor.displayName = 'ContentEditableEditor';
+ContentEditableEditor.propTypes = {
+  /**
+   * @i18n {zh-CN} class前缀
+   * @i18n {en-US} class prefix
+   */
   prefixCls: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 编辑区域宽度
+   * @i18n {en-US} editor's width
+   */
   width: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} 编辑区域高度
+   * @i18n {en-US} editor's height
+   */
   height: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} placeholder
+   * @i18n {en-US} placeholder
+   */
   placeholder: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 自定义插入的mention内容
+   * @i18n {en-US} customize the insert content with this function | function
+   */
   mentionFormatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 发生变化后的触发
+   * @i18n {en-US} trigger when editor content change
+   */
   onChange: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 添加mention后触发
+   * @i18n {en-US} Callback invoked when a mention has been added
+   */
   onAdd: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 默认内容
+   * @i18n {en-US} default value
+   */
   defaultValue: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 只读
+   * @i18n {en-US} read only
+   */
   readOnly: React.PropTypes.bool,
+  /**
+   * @i18n {zh-CN} 触发字符
+   * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
+   */
   delimiter: React.PropTypes.string,
 };
 ContentEditableEditor.defaultProps = {

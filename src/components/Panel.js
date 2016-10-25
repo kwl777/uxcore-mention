@@ -23,7 +23,7 @@ export default class Panel extends React.Component {
   }
 }
 Panel.displayName = 'uxcore-mention-panel';
-Panel.propType = {
+Panel.propTypes = {
   prefixCls: React.PropTypes.string,
   list: React.PropTypes.array,
   style: React.PropTypes.object,

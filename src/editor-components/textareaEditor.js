@@ -2,6 +2,10 @@ import React from 'react';
 import BaseEditor from './baseEditor';
 import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset } from '../utils/util';
 
+/**
+ * @i18n {zh-CN} textarea中使用mention
+ * @i18n {en-US} mention in textarea
+ */
 export default class TextareaEditor extends BaseEditor {
   constructor(props) {
     super(props);
@@ -75,6 +79,7 @@ export default class TextareaEditor extends BaseEditor {
           onKeyDown={this.onKeydown.bind(this)}
           onKeyUp={this.onKeyup.bind(this)}
           onFocus={this.onFocus.bind(this)}
+          onChange={this.props.onChange}
           defaultValue={this.props.defaultValue}
         >
         </textarea>
@@ -82,16 +87,57 @@ export default class TextareaEditor extends BaseEditor {
     );
   }
 }
-TextareaEditor.propType = {
+TextareaEditor.displayName = 'TextareaEditor';
+TextareaEditor.propTypes = {
+  /**
+   * @i18n {zh-CN} class前缀
+   * @i18n {en-US} class prefix
+   */
   prefixCls: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 编辑区域宽度
+   * @i18n {en-US} editor's width
+   */
   width: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} 编辑区域高度
+   * @i18n {en-US} editor's height
+   */
   height: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} placeholder
+   * @i18n {en-US} placeholder
+   */
   placeholder: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 自定义插入的mention内容
+   * @i18n {en-US} customize the insert content with this function | function
+   */
   mentionFormatter: React.PropTypes.func,
-  onChange: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 发生变化后的触发
+   * @i18n {en-US} trigger when editor content change
+   */
+  // onChange: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 添加mention后触发
+   * @i18n {en-US} Callback invoked when a mention has been added
+   */
   onAdd: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 默认内容
+   * @i18n {en-US} default value
+   */
   defaultValue: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 只读
+   * @i18n {en-US} read only
+   */
   readOnly: React.PropTypes.bool,
+  /**
+   * @i18n {zh-CN} 触发字符
+   * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
+   */
   delimiter: React.PropTypes.string,
 };
 TextareaEditor.defaultProps = {
@@ -100,7 +146,7 @@ TextareaEditor.defaultProps = {
   height: 100,
   placeholder: '',
   mentionFormatter: (data) => ` @${data.text} `,
-  onChange: () => {},
+  // onChange: () => {},
   onAdd: () => {},
   defaultValue: '',
   readOnly: false,

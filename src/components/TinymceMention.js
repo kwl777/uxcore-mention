@@ -14,6 +14,10 @@ function pluginInitialized() {
   return !!mention;
 }
 
+/**
+ * @i18n {zh-CN} 用于tinymce的mention 
+ * @i18n {en-US} Mention for Tinymce
+ */
 class TinymceMention extends BaseEditor {
   constructor(props) {
     super(props);
@@ -234,20 +238,61 @@ class TinymceMention extends BaseEditor {
 }
 
 reactMixin(TinymceMention.prototype, mentionMixin);
-
-TinymceMention.propType = {
+TinymceMention.displayName = 'TinymceMention';
+TinymceMention.propTypes = {
+  /**
+   * @i18n {zh-CN} class前缀
+   * @i18n {en-US} class prefix
+   */
   prefixCls: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 定义数据源
+   * @i18n {en-US} data source for mention content
+   */
   source: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.func,
   ]),
+  /**
+   * @i18n {zh-CN} 数据源查询延时
+   * @i18n {en-US} debounce of the request to data source
+   */
   delay: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} 匹配字符区间
+   * @i18n {en-US} only match the string after delimiter which the length in this range
+   */
   matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
+  /**
+   * @i18n {zh-CN} 数据源格式化匹配
+   * @i18n {en-US} format the data form source
+   */
   formatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 自定义插入的mention内容
+   * @i18n {en-US} customize the insert content with this function | function
+   */
   mentionFormatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 自定义选择列表
+   * @i18n {en-US} customize the panel display
+   */
   panelFormatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 发生变化后的触发
+   * @i18n {en-US} trigger when editor content change
+   * @param {data} xxxxxx
+   */
   onChange: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 添加mention后触发
+   * @i18n {en-US} Callback invoked when a mention has been added
+   */
   onAdd: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} `ELEMENT_NODE` 插入button, `TEXT_NODE` 插入纯字符串
+   * @i18n {en-US} `ELEMENT_NODE` will insert mention content with a button, `TEXT_NODE` will insert with a text node
+   */
   insertMode: React.PropTypes.oneOf(['ELEMENT_NODE', 'TEXT_NODE']),
 };
 TinymceMention.defaultProps = {

@@ -274,7 +274,7 @@ export default class Demo extends React.Component {
                     matchRange={[1, 6]}
                     source={source}
                     onChange={(e, content) => {
-                        // console.log('change:', content);
+                        console.log('change:', e, content, this);
                         // this.setState({
                         //     basicContent: content
                         // });

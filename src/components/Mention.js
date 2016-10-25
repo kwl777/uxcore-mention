@@ -9,7 +9,11 @@ import mentionMixin from './mentionMixin';
 
 let __matchTimer;
 
+/**
+ * Mention Component
+ */
 class Mention extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -25,11 +29,17 @@ class Mention extends React.Component {
   componentDidMount() {
     this.activeEditor = null;
   }
-
+  /**
+   * description of onfocus
+   * @i18n {zh-CN} 测试api文档
+   * @i18n {en-US} test api doc
+   */
   onFocus(editorInstance) {
     this.activeEditor = editorInstance;
   }
-
+  /**
+   * description of setPanelPos
+   */
   setPanelPos(pos) {
     const position = {
       x: pos.x,
@@ -81,17 +91,45 @@ class Mention extends React.Component {
 }
 
 reactMixin(Mention.prototype, mentionMixin);
-
-Mention.propType = {
+Mention.displayName = 'Mention';
+Mention.propTypes = {
+  /**
+   * @i18n {zh-CN} class前缀
+   * @i18n {en-US} class prefix
+   */
   prefixCls: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 定义数据源
+   * @i18n {en-US} data source for mention content
+   */
   source: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.func,
   ]),
+  /**
+   * @i18n {zh-CN} 数据源查询延时
+   * @i18n {en-US} debounce of the request to data source
+   */
   delay: React.PropTypes.number,
+  /**
+   * @i18n {zh-CN} 匹配字符区间
+   * @i18n {en-US} only match the string after delimiter which the length in this range
+   */
   matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
+  /**
+   * @i18n {zh-CN} 数据源格式化匹配
+   * @i18n {en-US} format the data form source
+   */
   formatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 自定义选择列表
+   * @i18n {en-US} customize the panel display
+   */
   panelFormatter: React.PropTypes.func,
+  /**
+   * @i18n {zh-CN} 发生变化后的触发
+   * @i18n {en-US} trigger when editor content change
+   */
   onChange: React.PropTypes.func,
 };
 Mention.defaultProps = {
