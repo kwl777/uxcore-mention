@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseEditor from './baseEditor';
-import { parseStrByDelimiter, getCaretOffset, getCaretPosition } from '../utils/util';
+import { parseStrByDelimiter, getCaretOffset, getCaretPosition, createEvent } from '../utils/util';
 
 /**
  * @i18n {zh-CN} input中使用mention
@@ -61,9 +61,11 @@ export default class InputEditor extends BaseEditor {
       editor.focus();
       editor.scrollTop = scrollTop;
     }
+    let changeEvt = createEvent(editor, 'change');
+    this.props.onChange(changeEvt);
   }
   render() {
-    const { readOnly, placeholder } = this.props;
+    const { readOnly, placeholder, onChange } = this.props;
     let style = {
       width: this.props.width,
       height: this.props.height,
@@ -76,7 +78,7 @@ export default class InputEditor extends BaseEditor {
           style={style}
           readOnly={readOnly}
           placeholder={placeholder}
-          onChange={this.props.onChange}
+          onChange={onChange}
           onKeyDown={this.onKeydown.bind(this)}
           onKeyUp={this.onKeyup.bind(this)}
           onFocus={this.onFocus.bind(this)}

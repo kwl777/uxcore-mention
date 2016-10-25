@@ -202,4 +202,17 @@ function getCaretPosition(element) {
   };
 }
 
-export { parseStrByDelimiter, getScrollOffset, getCaretOffset, getCaretPosition };
+function createEvent(element, type) {
+  let evt;
+  if ('createEvent' in document) {
+    evt = document.createEvent('HTMLEvents');
+    evt.initEvent(type, true, true);
+    element.dispatchEvent(evt);
+  } else {
+    evt = document.createEventObject();
+    element.fireEvent('on' + type, evt);
+  }
+  return evt;
+}
+
+export { parseStrByDelimiter, getScrollOffset, getCaretOffset, getCaretPosition, createEvent };

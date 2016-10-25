@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseEditor from './baseEditor';
-import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset } from '../utils/util';
+import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset, createEvent } from '../utils/util';
 
 /**
  * @i18n {zh-CN} textarea中使用mention
@@ -61,6 +61,8 @@ export default class TextareaEditor extends BaseEditor {
       editor.focus();
       editor.scrollTop = scrollTop;
     }
+    let changeEvt = createEvent(editor, 'change');
+    this.props.onChange(changeEvt);
   }
   render() {
     const { readOnly, placeholder } = this.props;

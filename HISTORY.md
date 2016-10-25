@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.4
+`FIXED` inputEditor & textareaEditor trigger change event when mention addded.
+
 ## 0.3.3
 `FIXED` issue when mention's 'matchRange' props start from 0.
 
