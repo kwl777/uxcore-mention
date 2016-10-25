@@ -122,7 +122,7 @@ class TinymceMention extends BaseEditor {
       const originStr = cloneRange.toString();
       const str = parseStrByDelimiter(originStr, delimiter);
       this.runMatcher(str);
-      if (str) {
+      if (str !== false) {
         if ('createRange' in document) {
           range.setStart(range.commonAncestorContainer, originStr.length - str.length - 1);
           const rect = range.getBoundingClientRect();

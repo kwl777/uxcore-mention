@@ -61,7 +61,7 @@ class Mention extends React.Component {
       left: this.state.cursorPosition.x,
       top: this.state.cursorPosition.y,
     };
-    let { prefixCls, readOnly, onChange, children, panelFormatter } = this.props;
+    let { prefixCls, readOnly, onChange, children, panelFormatter, matchRange } = this.props;
     return (
       <div onKeyUp={this.onPanelKeyup.bind(this)}>
         {
@@ -73,6 +73,7 @@ class Mention extends React.Component {
               setCursorPos: this.setPanelPos.bind(this),
               onChange,
               onFocus: this.onFocus.bind(this),
+              matchRange: matchRange,
             })
           )
         }

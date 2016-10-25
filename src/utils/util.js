@@ -11,7 +11,7 @@ function parseStrByDelimiter(str = '', delimiter = '@') {
   if (idx !== -1) {
     ret = str.substring(idx + 1);
   } else {
-    ret = '';
+    ret = false;
   }
   return ret;
 }
@@ -174,6 +174,12 @@ function getCaretPosition(element) {
       shadowEditorCaret.textContent = '|';
       shadowEditorCaret.style.cssText = 'display:inline-block;width:0;overflow:hidden;word-wrap:break-word;word-break:break-all;';
     }
+    let cursorHeight;
+    if (element.nodeName != 'INPUT') {
+      cursorHeight = parseInt(shadowEditor.style.lineHeight, 10);
+    } else {
+      cursorHeight = parseInt(shadowEditor.style.height, 10) - parseInt(shadowEditor.style.paddingTop, 10) - parseInt(shadowEditor.style.paddingBottom, 10) - 2;
+    }
     const offset = getElementOffset(element);
     shadowEditor.style.top = `${offset.top}px`;
     shadowEditor.style.left = `${offset.left}px`;
@@ -183,9 +189,9 @@ function getCaretPosition(element) {
 
     shadowEditorCaret.style.display = 'inline-block';
     try { focusOffset = getElementOffset(shadowEditorCaret); } catch (e) { }
-    shadowEditorCaret.style.display = 'none';
+    // shadowEditorCaret.style.display = 'none';
     left = focusOffset.left - element.scrollLeft;
-    top = focusOffset.top - element.scrollTop;
+    top = focusOffset.top + cursorHeight - element.scrollTop;
     const winOffset = getScrollOffset();
     left -= winOffset.x;
     top -= winOffset.y;

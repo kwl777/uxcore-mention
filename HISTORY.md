@@ -2,6 +2,11 @@
 
 ---
 
+## 0.3.3
+`FIXED` issue when mention's 'matchRange' props start from 0.
+
+`CHANGED` change panel's position with inputEditor & textareaEditor.
+
 ## 0.3.2
 `FIXED` fixed 'onChange' not trigger in inputEditor & textareaEditor.  
 

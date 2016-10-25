@@ -4,6 +4,7 @@
 import React from 'react';
 import Tinymce from 'uxcore-tinymce';
 import Mention, { ContenteditableEditor, TextareaEditor, InputEditor, TinymceMention } from '../src/index';
+import Dialog from 'uxcore-dialog';
 
 function formatter(data) {
     return data.map((item) => {
@@ -256,6 +257,7 @@ export default class Demo extends React.Component {
             basicContent: 'basic content',
             personContent: '',
             readOnly: false,
+            showDialog: false,
         };
     }
     onToggleReadOnly() {
@@ -263,18 +265,42 @@ export default class Demo extends React.Component {
             readOnly: !this.state.readOnly,
         });
     }
+    toggleDialog() {
+        this.setState({
+            showDialog: !this.state.showDialog,
+        });
+    }
     render(){
         return (
             <div>
+                <button onClick={this.toggleDialog.bind(this)}>show dialog</button>
+                <Dialog
+                    title="mention in dialog"
+                    visible={this.state.showDialog}
+                    onOk={this.toggleDialog.bind(this)}
+                    onCancel={this.toggleDialog.bind(this)}
+                    formatter={formatter} >
+                    <Mention
+                        matchRange={[1, 6]}
+                        formatter={personDataFormatter}
+                        panelFormatter={personPanelFormatter}
+                        source={getPersonData}>
+                        <InputEditor
+                            width={250}
+                            height={30}
+                            mentionFormatter={personMentionFormatter}
+                            placeholder="input editor placeholder" />
+                    </Mention>
+                </Dialog>
                 <div>
                     <label><input ref="readOnlyCheckbox" type="checkbox" checked={this.state.readOnly} onChange={this.onToggleReadOnly.bind(this)} />只读</label>
                 </div>
                 <h1>BASIC:</h1>
                 <Mention
-                    matchRange={[1, 6]}
+                    matchRange={[0, 6]}
                     source={source}
                     onChange={(e, content) => {
-                        console.log('change:', e, content, this);
+                        // console.log('change:', e, content, this);
                         // this.setState({
                         //     basicContent: content
                         // });

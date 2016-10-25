@@ -58,7 +58,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
 
   handleDefaultKeyup(e) {
-    const { delimiter } = this.props;
+    const { delimiter, matchRange } = this.props;
     const sel = rangy.getSelection();
     const range = sel.getRangeAt(0);
     if (range.commonAncestorContainer.nodeType === 3) {
@@ -67,7 +67,7 @@ export default class ContentEditableEditor extends BaseEditor {
       const str = parseStrByDelimiter(originStr, delimiter);
       // send str to matcher
       this.props.matcher(str);
-      if (str) {
+      if (str !== false) {
         // set range's start position before delimiter
         range.setStart(range.commonAncestorContainer, originStr.length - str.length - 1);
         const pos = range.getEndClientPos();

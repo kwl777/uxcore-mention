@@ -29,7 +29,7 @@ export default class TextareaEditor extends BaseEditor {
       start: offset.start - str.length - 1,
       end: offset.end,
     };
-    if (str) {
+    if (str !== false) {
       const position = getCaretPosition(editor);
       this.props.setCursorPos({
         x: position.left,
