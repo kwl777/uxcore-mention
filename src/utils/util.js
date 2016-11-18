@@ -88,7 +88,7 @@ function getElementOffset(element) {
 const properties = [
   'direction',  // RTL support
   'boxSizing',
-  'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+  'width',
   'height',
   'overflowX',
   'overflowY',  // copy the scrollbar for IE
@@ -154,9 +154,10 @@ function getCaretPosition(element) {
       document.body.appendChild(shadowEditor);
       // set shadow element's style
       const style = shadowEditor.style;
-      const computed = window.getComputedStyle ? getComputedStyle(element) : element.currentStyle;  // currentStyle for IE < 9
+      const computed = window.getComputedStyle ?
+        getComputedStyle(element) : element.currentStyle;  // currentStyle for IE < 9
 
-      if (element.nodeName != 'INPUT') {
+      if (element.nodeName !== 'INPUT') {
         // only for textarea
         style.whiteSpace = 'pre-wrap';
         style.wordWrap = 'break-word';
@@ -172,13 +173,21 @@ function getCaretPosition(element) {
       });
 
       shadowEditorCaret.textContent = '|';
-      shadowEditorCaret.style.cssText = 'display:inline-block;width:0;overflow:hidden;word-wrap:break-word;word-break:break-all;';
+      shadowEditorCaret.style.cssText =
+        'display:inline-block;width:0;overflow:hidden;word-wrap:break-word;word-break:break-all;';
     }
     let cursorHeight;
-    if (element.nodeName != 'INPUT') {
-      cursorHeight = parseInt(shadowEditor.style.lineHeight, 10);
+    if (element.nodeName !== 'INPUT') {
+      let lh = shadowEditor.style.lineHeight;
+      if (lh === 'normal') {
+        lh = parseInt(shadowEditor.style.fontSize, 10) * 1.2;
+      }
+      cursorHeight = parseInt(lh, 10);
     } else {
-      cursorHeight = parseInt(shadowEditor.style.height, 10) - parseInt(shadowEditor.style.paddingTop, 10) - parseInt(shadowEditor.style.paddingBottom, 10) - 2;
+      cursorHeight = parseInt(shadowEditor.style.height, 10)
+        - parseInt(shadowEditor.style.paddingTop, 10)
+        - parseInt(shadowEditor.style.paddingBottom, 10)
+        - 2;
     }
     const offset = getElementOffset(element);
     shadowEditor.style.top = `${offset.top}px`;
@@ -210,7 +219,7 @@ function createEvent(element, type) {
     element.dispatchEvent(evt);
   } else {
     evt = document.createEventObject();
-    element.fireEvent('on' + type, evt);
+    element.fireEvent(`on${type}`, evt);
   }
   return evt;
 }
