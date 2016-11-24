@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.6
+`FIXED` click on the contentEditable's placeholder, the editor can't focus.  
+
+
 ## 0.3.4
 `FIXED` inputEditor & textareaEditor trigger change event when mention addded.
 

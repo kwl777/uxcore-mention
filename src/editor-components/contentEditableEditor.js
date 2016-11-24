@@ -160,7 +160,7 @@ export default class ContentEditableEditor extends BaseEditor {
     this.props.onChange(e, content);
   }
   render() {
-    const { readOnly } = this.props;
+    const { readOnly, placeholder } = this.props;
     let style = {
       width: this.props.width,
       height: this.props.height,
@@ -175,7 +175,10 @@ export default class ContentEditableEditor extends BaseEditor {
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
           style={style}></div>
-        {!this.state.focus && !this.state.value ? <div className={`${this.props.prefixCls}-placeholder`}>{this.props.placeholder}</div> : ''}
+        {!this.state.focus && !this.state.value ? <div className={`${this.props.prefixCls}-placeholder`} onClick={() => {
+          this.refs.editor.focus();
+          this.onFocus();
+        }}>{placeholder}</div> : ''}
       </div>
     );
   }
