@@ -16,13 +16,13 @@ export default class ContentEditableEditor extends BaseEditor {
     super(props);
     this.state = {
       focus: false,
-      value: props.defaultValue,
+      value: props.value || props.defaultValue,
     };
   }
   componentDidMount() {
     this.STORE = {};
-    if (this.props.defaultValue) {
-      this.refs.editor.innerHTML = this.props.defaultValue;
+    if (this.state.value) {
+      this.refs.editor.innerHTML = this.state.value;
     }
     if (MutationObserver) {
       this.observer = new MutationObserver(this.onMutation.bind(this));
@@ -31,6 +31,11 @@ export default class ContentEditableEditor extends BaseEditor {
         childList: true,
         subtree: true,
       });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.refs.editor.innerHTML = nextProps.value;
     }
   }
   componentWillUnmount() {
@@ -225,6 +230,11 @@ ContentEditableEditor.propTypes = {
    * @i18n {en-US} default value
    */
   defaultValue: React.PropTypes.string,
+  /**
+   * @i18n {zh-CN} 内容
+   * @i18n {en-US} value
+   */
+  value: React.PropTypes.string,
   /**
    * @i18n {zh-CN} 只读
    * @i18n {en-US} read only

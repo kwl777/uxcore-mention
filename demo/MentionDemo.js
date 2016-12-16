@@ -253,7 +253,7 @@ export default class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            defaultContent: 'default content',
+            content: 'xxx',
             basicContent: 'basic content',
             personContent: '',
             readOnly: false,
@@ -311,20 +311,26 @@ export default class Demo extends React.Component {
                         height={150}
                         readOnly={this.state.readOnly}
                         placeholder="contenteditable editor placeholder"
-                        defaultValue={this.state.defaultContent} />
+                        defaultValue={'defaultValue'}
+                        value={this.state.content} />
                     <TextareaEditor
                         width={250}
                         height={100}
                         readOnly={this.state.readOnly}
                         placeholder="textarea editor placeholder"
-                        defaultValue={this.state.defaultContent} />
+                        defaultValue={'defaultValue'}
+                        value={this.state.content} />
                     <InputEditor
                         width={250}
                         height={30}
                         readOnly={this.state.readOnly}
                         placeholder="input editor placeholder"
-                        defaultValue={this.state.defaultContent} />
+                        defaultValue={'defaultValue'}
+                        value={this.state.content} />
                 </Mention>
+                <button onClick={() => {
+                    this.setState({content: String(new Date())});
+                }}>change content</button>
                 <h1>SELECT PERSON:</h1>
                 <Mention
                     matchRange={[2, 6]}

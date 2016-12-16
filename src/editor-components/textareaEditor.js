@@ -9,6 +9,17 @@ import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset,
 export default class TextareaEditor extends BaseEditor {
   constructor(props) {
     super(props);
+    this.state = {
+      value: props.value, 
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({
+        value: nextProps.value,
+      });
+    }
   }
   componentDidMount() {
     this.selectionPosition = {
@@ -20,7 +31,7 @@ export default class TextareaEditor extends BaseEditor {
     const { editor } = this.refs;
     const { delimiter } = this.props;
     const offset = getCaretOffset(editor);
-    let value = editor.value;
+    let { value } = this.state;
     value = value.replace(/(\r\n)|\n|\r/g, '\n');
     const originStr = value.slice(0, offset.end);
     const str = parseStrByDelimiter(originStr, delimiter);
@@ -55,21 +66,39 @@ export default class TextareaEditor extends BaseEditor {
       }
     } else {
       const scrollTop = editor.scrollTop;
-      editor.value = editor.value.substring(0, this.selectionPosition.start) +
+      let { value } = this.state;
+      value = value.substring(0, this.selectionPosition.start) +
         text +
-        editor.value.substring(this.selectionPosition.end, editor.value.length);
-      editor.focus();
-      editor.scrollTop = scrollTop;
+        value.substring(this.selectionPosition.end, value.length);
+      this.setState({
+        value,
+      }, () => {
+        editor.focus();
+        editor.scrollTop = scrollTop;
+      });
     }
     let changeEvt = createEvent(editor, 'change');
     this.props.onChange(changeEvt);
   }
+  handleChange(e) {
+    this.setState({
+      value: e.target.value,
+    })
+    this.props.onChange(e);
+  }
   render() {
-    const { readOnly, placeholder } = this.props;
+    const { value } = this.state;
+    const { readOnly, placeholder, defaultValue } = this.props;
     let style = {
       width: this.props.width,
       height: this.props.height,
     };
+    let valueProps = {
+      defaultValue: defaultValue,
+    };
+    if (value) {
+      valueProps.value = value;
+    }
     return (
       <div className={this.props.prefixCls}>
         <textarea
@@ -81,8 +110,8 @@ export default class TextareaEditor extends BaseEditor {
           onKeyDown={this.onKeydown.bind(this)}
           onKeyUp={this.onKeyup.bind(this)}
           onFocus={this.onFocus.bind(this)}
-          onChange={this.props.onChange}
-          defaultValue={this.props.defaultValue}
+          onChange={this.handleChange}
+          {...valueProps}
         >
         </textarea>
       </div>
@@ -132,6 +161,11 @@ TextareaEditor.propTypes = {
    */
   defaultValue: React.PropTypes.string,
   /**
+   * @i18n {zh-CN} 内容
+   * @i18n {en-US} value
+   */
+  value: React.PropTypes.string,
+  /**
    * @i18n {zh-CN} 只读
    * @i18n {en-US} read only
    */
@@ -153,4 +187,5 @@ TextareaEditor.defaultProps = {
   defaultValue: '',
   readOnly: false,
   delimiter: '@',
+  value: '',
 };

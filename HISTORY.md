@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.7
+`CHANGED` add value props.
+
 ## 0.3.6
 `FIXED` click on the contentEditable's placeholder, the editor can't focus.  
 
