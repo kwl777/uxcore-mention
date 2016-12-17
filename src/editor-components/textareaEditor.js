@@ -10,7 +10,7 @@ export default class TextareaEditor extends BaseEditor {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value, 
+      value: props.value,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -78,13 +78,13 @@ export default class TextareaEditor extends BaseEditor {
       });
     }
     let changeEvt = createEvent(editor, 'change');
-    this.props.onChange(changeEvt);
+    this.props.onChange(changeEvt, this.state.value);
   }
   handleChange(e) {
     this.setState({
       value: e.target.value,
     })
-    this.props.onChange(e);
+    this.props.onChange(e, this.state.value);
   }
   render() {
     const { value } = this.state;

@@ -300,10 +300,7 @@ export default class Demo extends React.Component {
                     matchRange={[0, 6]}
                     source={source}
                     onChange={(e, content) => {
-                        console.log(e);
-                        // this.setState({
-                        //     basicContent: content
-                        // });
+                        console.log(e, content);
                     }}
                     formatter={formatter}>
                     <ContenteditableEditor
