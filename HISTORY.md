@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.9
+`CHANGED` editor's width propType.
+
 ## 0.3.7
 `CHANGED` add value props.
 

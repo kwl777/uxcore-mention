@@ -199,7 +199,10 @@ ContentEditableEditor.propTypes = {
    * @i18n {zh-CN} 编辑区域宽度
    * @i18n {en-US} editor's width
    */
-  width: React.PropTypes.number,
+  width: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string,
+  ]),
   /**
    * @i18n {zh-CN} 编辑区域高度
    * @i18n {en-US} editor's height
