@@ -49,7 +49,6 @@ export default {
     }, this.props.delay);
   },
   _matcher(str) {
-    // console.log(`matcher run with: ${str}`);
     const { source, matchRange } = this.props;
     this.setState({
       panelVisible: false,

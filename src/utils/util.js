@@ -182,7 +182,7 @@ function getCaretPosition(element) {
       if (lh === 'normal') {
         lh = parseInt(shadowEditor.style.fontSize, 10) * 1.2;
       }
-      cursorHeight = parseInt(lh, 10);
+      cursorHeight = parseInt(lh, 10) || 18 ;
     } else {
       cursorHeight = parseInt(shadowEditor.style.height, 10)
         - parseInt(shadowEditor.style.paddingTop, 10)

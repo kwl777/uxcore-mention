@@ -74,6 +74,7 @@ class Mention extends React.Component {
               onChange,
               onFocus: this.onFocus.bind(this),
               matchRange: matchRange,
+              ref: editor => this.editor = editor,
             })
           )
         }
@@ -85,6 +86,7 @@ class Mention extends React.Component {
           onSelect={this.selectItem.bind(this)}
           formatter={panelFormatter}
           style={panelPosition}
+          ref={panel => this.panel = panel}
         />
       </div>
     );
