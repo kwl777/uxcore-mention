@@ -137,18 +137,18 @@ describe('Mention', () => {
       done();
     });
     // it('should show panel when typed: @a', (done) => {
-    //   textareaNode.simulate('keydown', event_a);
-    //   textareaNode.simulate('keyup', event_a);
-    //   setTimeout(() => {
-    //     expect(wrapper.node.state.panelVisible).to.be(true);
-    //     expect(wrapper.node.state.mentionList.length).to.be(4);
-    //     done();
-    //   }, 100);
+      // textareaNode.simulate('keydown', event_a);
+      // textareaNode.simulate('keyup', event_a);
+      // setTimeout(() => {
+      //   expect(wrapper.node.state.panelVisible).to.be(true);
+      //   expect(wrapper.node.state.mentionList.length).to.be(4);
+      //   done();
+      // }, 100);
     // });
     it('should insert content correctly', (done) => {
+      wrapper.node.editor.insert('@test');
       textareaNode.simulate('keydown', event_a);
       textareaNode.simulate('keyup', event_a);
-      wrapper.node.editor.insert('@test');
       expect(wrapper.node.editor.state.value).to.contain('@test');
       done();
     });
