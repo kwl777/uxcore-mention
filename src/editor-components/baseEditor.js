@@ -1,7 +1,6 @@
 import React from 'react';
+import 'rangy-position';
 import { KEYCODE } from '../utils/keycode';
-import { parseStrByDelimiter } from '../utils/util';
-import '../utils/rangy-position';
 
 export default class BaseEditor extends React.Component {
   constructor(props) {

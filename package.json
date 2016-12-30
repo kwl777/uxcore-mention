@@ -50,6 +50,7 @@
   "dependencies": {
     "classnames": "^2.1.2",
     "object-assign": "^4.0.0",
+    "rangy-position": "^1.0.0",
     "react-mixin": "^2.0.2"
   },
   "author": "vincent.bian",

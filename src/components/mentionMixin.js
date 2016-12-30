@@ -1,5 +1,5 @@
 import { KEYCODE } from '../utils/keycode';
-let __matchTimer;
+// let __matchTimer;
 
 export default {
   componentDidUpdate(prevProps, prevState) {
@@ -43,8 +43,8 @@ export default {
   },
   
   runMatcher(str) {
-    __matchTimer && clearTimeout(__matchTimer);
-    __matchTimer = setTimeout(() => {
+    this.__matchTimer && clearTimeout(this.__matchTimer);
+    this.__matchTimer = setTimeout(() => {
         this._matcher(str);
     }, this.props.delay);
   },

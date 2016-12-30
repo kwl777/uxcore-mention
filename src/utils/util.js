@@ -55,7 +55,7 @@ function getCaretOffset(element) {
       }
     } else if (element.tagName.toUpperCase() === 'INPUT') {
       // input
-      range.moveStart('character', -element.value.length);
+      range.moveStart('character', - element.value.length);
       start = range.text.length;
     }
     end = start + range.text.length;

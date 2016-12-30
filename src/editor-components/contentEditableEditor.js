@@ -127,7 +127,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   extractContent() {
     // console.time('extractContent');
-    const editor = this.refs.editor;
+    const { editor } = this.refs;
     const nodes = editor.childNodes;
     let content = '';
     for (let i = 0, len = nodes.length; i < len; i += 1) {
@@ -149,13 +149,9 @@ export default class ContentEditableEditor extends BaseEditor {
   emitChange(e) {
     if (!this.observer) {
       const editor = this.refs.editor;
-
       const lastHtml = this.lastHtml;
       const currentHtml = editor.innerHTML;
-      if (lastHtml === currentHtml) {
-        // no change made
-        return;
-      }
+      if (lastHtml === currentHtml) return;
       this.lastHtml = currentHtml;
     }
     const content = this.extractContent();
