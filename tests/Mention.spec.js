@@ -8,6 +8,8 @@ import Mention, { ContenteditableEditor, TextareaEditor, InputEditor, TinymceMen
 import Panel from '../src/components/Panel';
 import MentionDemo from '../demo/MentionDemo';
 import assign from 'object-assign';
+import { KEYCODE } from '../src/utils/keycode';
+import { getCaretPosition } from '../src/utils/util';
 
 // function appendScript(src) {
 //   const script = document.createElement('script');
@@ -38,6 +40,17 @@ function setEndOfContenteditable(contentEditableElement) {
   }
 }
 
+function renderIntoDoc(Target) {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  ReactDOM.render(Target, container);
+  return container;
+}
+
+const event_a = {
+  keyCode: 65,
+};
+
 describe('Mention', () => {
 
   const mentionProps = {
@@ -62,9 +75,6 @@ describe('Mention', () => {
       </Mention>
     );
     const inputNode = wrapper.find('input');
-    const event_a = {
-        keyCode: 65,
-      };
     it('should render correctly', (done) => {
       expect(inputNode.length).to.be(1);
       done();
@@ -87,6 +97,9 @@ describe('Mention', () => {
     it('should insert mention target correctly', (done) => {
       inputNode.simulate('focus');
       wrapper.find('li').at(0).simulate('click');
+      inputNode.simulate('keydown', {
+        keyCode: KEYCODE.UP,
+      });
       expect(inputNode.node.value).to.be(' @aaaaa ');
       inputNode.node.value = '@a';
       inputNode.simulate('change');
@@ -95,17 +108,17 @@ describe('Mention', () => {
       const divNode = wrapper.find('div').at(0);
       setTimeout(() => {
         divNode.simulate('keyup', {
-          keyCode: 40,
+          keyCode: KEYCODE.DOWN,
         });
         divNode.simulate('keyup', {
-          keyCode: 40,
+          keyCode: KEYCODE.DOWN,
         });
         divNode.simulate('keyup', {
-          keyCode: 38,
+          keyCode: KEYCODE.UP,
         });
         expect(wrapper.node.state.panelIdx).to.be(1);
         divNode.simulate('keyup', {
-          keyCode: 13,
+          keyCode: KEYCODE.ENTER,
         });
         expect(inputNode.node.value).to.be(' @aabbb ');
         done();
@@ -117,56 +130,92 @@ describe('Mention', () => {
     const props = {
       defaultValue: 'defaultContent',
     };
-    const event_a = {
-        keyCode: 65,
-      };
-    const wrapper = mount(
-      <Mention {...mentionProps}>
-        <TextareaEditor {...props} />
-      </Mention>
+    let editor, target;
+    class TextareaEditorDemo extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          show: true,
+          value: 'default content',
+        }
+      }
+      updateValue() {
+        this.setState({
+          value: 'new content',
+        });
+      }
+      handleHide() {
+        this.setState({
+          show: false,
+        });
+      }
+      render() {
+        let c;
+        if (this.state.show) {
+          const p = assign({}, mentionProps, {
+              ref: (node) => editor = node,
+          });
+          const tp = assign({}, props, {
+            value: this.state.value,
+          });
+          c = (
+            <Mention {...p}>
+              <TextareaEditor {...props} />
+            </Mention>
+          );
+        } else {
+          c = null;
+        }
+        return (
+          <div>{c}</div>
+        )
+      }
+    }
+    const wrapper = renderIntoDoc(
+      <TextareaEditorDemo ref={node => target = node} />
     );
-    const textareaNode = wrapper.find('textarea');
+    const textarea = wrapper.getElementsByTagName('textarea')[0];
     it('should render correctly', (done) => {
-      expect(textareaNode.length).to.be(1);
+      expect(textarea.tagName.toLowerCase()).to.be('textarea');
       done();
     });
     it('should change value correctly', (done) => {
-      textareaNode.node.value = '@a';
-      textareaNode.simulate('change');
-      expect(wrapper.node.editor.state.value).to.be('@a');
+      textarea.value = '@a';
+      Simulate.change(textarea);
+      expect(editor.editor.state.value).to.be('@a');
       done();
     });
-    // it('should show panel when typed: @a', (done) => {
-      // textareaNode.simulate('keydown', event_a);
-      // textareaNode.simulate('keyup', event_a);
-      // setTimeout(() => {
-      //   expect(wrapper.node.state.panelVisible).to.be(true);
-      //   expect(wrapper.node.state.mentionList.length).to.be(4);
-      //   done();
-      // }, 100);
-    // });
+    it('should show panel when typed: @a', (done) => {
+      Simulate.keyDown(textarea, event_a);
+      Simulate.keyUp(textarea, event_a);
+      getCaretPosition(textarea);
+      setTimeout(() => {
+        // expect(editor.state.panelVisible).to.be(true);
+        // expect(editor.state.mentionList.length).to.be(4);
+        done();
+      }, 100);
+    });
     it('should insert content correctly', (done) => {
-      wrapper.node.editor.insert('@test');
-      textareaNode.simulate('keydown', event_a);
-      textareaNode.simulate('keyup', event_a);
-      expect(wrapper.node.editor.state.value).to.contain('@test');
+      editor.editor.insert('@test');
+      Simulate.keyDown(textarea, event_a);
+      Simulate.keyUp(textarea, event_a);
+      expect(textarea.value).to.contain('@test');
+      target.updateValue();
+      target.handleHide();
       done();
     });
   });
 
   describe('ContenteditableEditor', () => {
-    const container = document.createElement('div');
     let editor;
-    document.body.appendChild(container);
+    renderIntoDoc(
+      <Mention ref={node => editor = node} {...mentionProps}>
+        <ContenteditableEditor />
+      </Mention>
+    );
     Mention.prototype.runMatcher = function (str){
       this._matcher(str);
     };
-    ReactDOM.render(
-      <Mention ref={node => editor = node} {...mentionProps}>
-        <ContenteditableEditor />
-      </Mention>,
-      container
-    );
 
     it('should render correctly', (done) => {
       expect(editor.editor.refs.editor.tagName.toLowerCase()).to.be('div');
@@ -197,20 +246,25 @@ describe('Mention', () => {
       Simulate.keyUp(editor.editor.refs.editor, {
         keyCode: 65,
       });
-      Simulate.keyUp(editor.editor.refs.editor, {
-        keyCode: 40,
-      });
-      Simulate.keyDown(editor.editor.refs.editor, {
-        keyCode: 13,
-      });
-      Simulate.keyUp(editor.editor.refs.editor, {
-        keyCode: 13,
-      });
-      let children = editor.editor.refs.editor.children;
-      expect(children[0].value).to.be('@aabbb');
-      editor.editor.observer = null;
-      editor.editor.emitChange();
-      done();
+      setTimeout(() => {
+        Simulate.keyUp(editor.editor.refs.editor, {
+          keyCode: KEYCODE.DOWN,
+        });
+        Simulate.keyDown(editor.editor.refs.editor, {
+          keyCode: KEYCODE.ENTER,
+        });
+        Simulate.keyUp(editor.editor.refs.editor, {
+          keyCode: KEYCODE.ENTER,
+        });
+        let children = editor.editor.refs.editor.children;
+        expect(children[0].value).to.be('@aabbb');
+        editor.editor.observer = null;
+        editor.editor.emitChange();
+        Simulate.keyDown(editor.editor.refs.editor, {
+          keyCode: KEYCODE.ENTER,
+        });
+        done();
+      }, 100);
     });
   });
 
@@ -218,9 +272,9 @@ describe('Mention', () => {
     const newProps = assign(mentionProps, {
       ref: (node) => editor = node,
     });
+    
     const container = document.createElement('div');
     let editor, btn;
-    document.body.appendChild(container);
     class TinymceMentionTest extends React.Component {
       constructor(props) {
         super(props);
@@ -245,10 +299,7 @@ describe('Mention', () => {
         );
       }
     }
-    ReactDOM.render(
-      <TinymceMentionTest />,
-      container
-    );
+    renderIntoDoc(<TinymceMentionTest />);
 
     function testUntilReady(next) {
       if (editor.editor) {
@@ -273,10 +324,10 @@ describe('Mention', () => {
         });
         expect(editor.state.panelVisible).to.be(true);
         editor.editor.fire('keyup', {
-          keyCode: 40,
+          keyCode: KEYCODE.DOWN,
         });
         editor.editor.fire('keyup', {
-          keyCode: 13,
+          keyCode: KEYCODE.ENTER,
         });
         expect(editor.editor.getContent()).to.be('<div>@aabbb</div>');
         btn.click();
@@ -286,7 +337,7 @@ describe('Mention', () => {
           keyCode: 65,
         });
         editor.editor.fire('keyup', {
-          keyCode: 13,
+          keyCode: KEYCODE.ENTER,
         });
         expect(editor.editor.getContent()).to.be('<div>@aabbb<input class="kuma-mention-node" tabindex="-1" type="button" value="@aaaaa" /></div>');
         done();
