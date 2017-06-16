@@ -5,7 +5,8 @@ import { parseStrByDelimiter } from '../utils/util';
 
 // webkit browsers support 'plaintext-only'
 const contentEditableValue = (() => {
-  if (document) {
+  // only this format can solve `document is not defined` in nodejs
+  if (typeof document !== 'undefined') {
     const div = document.createElement('div');
     div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
     return div.contentEditable === 'plaintext-only' ? 'plaintext-only' : true;
