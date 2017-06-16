@@ -5,9 +5,12 @@ import { parseStrByDelimiter } from '../utils/util';
 
 // webkit browsers support 'plaintext-only'
 const contentEditableValue = (() => {
-  const div = document.createElement('div');
-  div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
-  return div.contentEditable === 'plaintext-only' ? 'plaintext-only' : true;
+  if (document) {
+    const div = document.createElement('div');
+    div.setAttribute('contenteditable', 'PLAINTEXT-ONLY');
+    return div.contentEditable === 'plaintext-only' ? 'plaintext-only' : true;
+  }
+  return true;
 })();
 
 export default class ContentEditableEditor extends BaseEditor {
