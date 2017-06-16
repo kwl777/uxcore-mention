@@ -23,7 +23,8 @@ export default class ContentEditableEditor extends BaseEditor {
     if (this.state.value) {
       this.refs.editor.innerHTML = this.state.value;
     }
-    const MutationObserver = window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
+    const MutationObserver =
+      window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
     if (MutationObserver) {
       this.observer = new MutationObserver(this.onMutation.bind(this));
       this.observer.observe(this.refs.editor, {
@@ -127,7 +128,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   extractContent() {
     // console.time('extractContent');
-    const { editor } = this.refs;
+    const editor = this.refs.editor;
     const nodes = editor.childNodes;
     let content = '';
     for (let i = 0, len = nodes.length; i < len; i += 1) {
@@ -149,9 +150,13 @@ export default class ContentEditableEditor extends BaseEditor {
   emitChange(e) {
     if (!this.observer) {
       const editor = this.refs.editor;
+
       const lastHtml = this.lastHtml;
       const currentHtml = editor.innerHTML;
-      if (lastHtml === currentHtml) return;
+      if (lastHtml === currentHtml) {
+        // no change made
+        return;
+      }
       this.lastHtml = currentHtml;
     }
     const content = this.extractContent();
@@ -168,9 +173,7 @@ export default class ContentEditableEditor extends BaseEditor {
     };
     return (
       <div className={this.props.prefixCls}>
-        <div
-          className={`${this.props.prefixCls}-editor`}
-          ref="editor"
+        <div className={`${this.props.prefixCls}-editor`} ref="editor"
           onKeyUp={this.onKeyup.bind(this)}
           onKeyDown={this.onKeydown.bind(this)}
           contentEditable={readOnly ? false : contentEditableValue}

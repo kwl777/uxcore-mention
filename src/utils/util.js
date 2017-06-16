@@ -55,7 +55,7 @@ function getCaretOffset(element) {
       }
     } else if (element.tagName.toUpperCase() === 'INPUT') {
       // input
-      range.moveStart('character', - element.value.length);
+      range.moveStart('character', -element.value.length);
       start = range.text.length;
     }
     end = start + range.text.length;
@@ -182,7 +182,7 @@ function getCaretPosition(element) {
       if (lh === 'normal') {
         lh = parseInt(shadowEditor.style.fontSize, 10) * 1.2;
       }
-      cursorHeight = parseInt(lh, 10) || 18 ;
+      cursorHeight = parseInt(lh, 10);
     } else {
       cursorHeight = parseInt(shadowEditor.style.height, 10)
         - parseInt(shadowEditor.style.paddingTop, 10)

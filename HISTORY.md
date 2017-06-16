@@ -2,7 +2,12 @@
 
 ---
 
+## 0.3.11
+`FIXED` server render bug
+
+
 ## 0.3.10
+`FIXED` remove the warning under react@15.x.x.
 
 ## 0.3.9
 `CHANGED` editor's width propType.

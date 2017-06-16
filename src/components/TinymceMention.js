@@ -231,7 +231,6 @@ class TinymceMention extends BaseEditor {
           onSelect={this.selectItem.bind(this)}
           formatter={panelFormatter}
           style={panelPosition}
-          ref={panel => this.panel = panel}
         />
       </div>
     );

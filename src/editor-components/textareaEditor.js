@@ -10,7 +10,7 @@ export default class TextareaEditor extends BaseEditor {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value,
+      value: props.value || props.defaultValue,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -83,22 +83,16 @@ export default class TextareaEditor extends BaseEditor {
   handleChange(e) {
     this.setState({
       value: e.target.value,
-    })
+    });
     this.props.onChange(e, this.state.value);
   }
   render() {
     const { value } = this.state;
-    const { readOnly, placeholder, defaultValue } = this.props;
+    const { readOnly, placeholder } = this.props;
     let style = {
       width: this.props.width,
       height: this.props.height,
     };
-    let valueProps = {
-      defaultValue: defaultValue,
-    };
-    if (value) {
-      valueProps.value = value;
-    }
     return (
       <div className={this.props.prefixCls}>
         <textarea
@@ -111,7 +105,7 @@ export default class TextareaEditor extends BaseEditor {
           onKeyUp={this.onKeyup.bind(this)}
           onFocus={this.onFocus.bind(this)}
           onChange={this.handleChange}
-          {...valueProps}
+          value={value}
         >
         </textarea>
       </div>
