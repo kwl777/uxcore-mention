@@ -2,6 +2,8 @@
 
 ---
 
+## 0.3.10
+
 ## 0.3.9
 `CHANGED` editor's width propType.
 

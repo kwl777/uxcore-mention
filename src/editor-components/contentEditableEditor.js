@@ -2,7 +2,6 @@ import React from 'react';
 import BaseEditor from './baseEditor';
 import { parseStrByDelimiter } from '../utils/util';
 
-const MutationObserver = window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
 
 // webkit browsers support 'plaintext-only'
 const contentEditableValue = (() => {
@@ -24,6 +23,7 @@ export default class ContentEditableEditor extends BaseEditor {
     if (this.state.value) {
       this.refs.editor.innerHTML = this.state.value;
     }
+    const MutationObserver = window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
     if (MutationObserver) {
       this.observer = new MutationObserver(this.onMutation.bind(this));
       this.observer.observe(this.refs.editor, {
@@ -83,7 +83,7 @@ export default class ContentEditableEditor extends BaseEditor {
       }
     }
   }
-  
+
   onInput() {
     if (!this.observer) {
       this.emitChange();
@@ -162,24 +162,28 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   render() {
     const { readOnly, placeholder } = this.props;
-    let style = {
+    const style = {
       width: this.props.width,
       height: this.props.height,
     };
     return (
       <div className={this.props.prefixCls}>
-        <div className={`${this.props.prefixCls}-editor`} ref="editor"
+        <div
+          className={`${this.props.prefixCls}-editor`}
+          ref="editor"
           onKeyUp={this.onKeyup.bind(this)}
           onKeyDown={this.onKeydown.bind(this)}
-          contentEditable={readOnly ? false: contentEditableValue}
+          contentEditable={readOnly ? false : contentEditableValue}
           onInput={this.onInput.bind(this)}
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
-          style={style}></div>
+          style={style}
+        />
         {!this.state.focus && !this.state.value ? <div className={`${this.props.prefixCls}-placeholder`} onClick={() => {
           this.refs.editor.focus();
           this.onFocus();
-        }}>{placeholder}</div> : ''}
+        }}
+        >{placeholder}</div> : ''}
       </div>
     );
   }
@@ -250,7 +254,7 @@ ContentEditableEditor.defaultProps = {
   width: 200,
   height: 100,
   placeholder: '',
-  mentionFormatter: (data) => `@${data.text}`,
+  mentionFormatter: data => `@${data.text}`,
   onChange: () => {},
   onAdd: () => {},
   defaultValue: '',
