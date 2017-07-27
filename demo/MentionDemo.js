@@ -229,8 +229,6 @@ let mockData = [
 ];
 
 function getPersonData(keyword, next){
-    console.log(1212132,next)
-    console.log(next(mockData));
     setTimeout(function(){
         next(mockData);
     }, 100);
