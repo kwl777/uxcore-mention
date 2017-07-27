@@ -110,15 +110,15 @@ export default class ContentEditableEditor extends BaseEditor {
     this.props.onFocus(this);
   }
   insert(mentionContent) {
-    var editor = this.refs.editor;
-    var prefixCls = this.props.prefixCls + '-node';
-    var sel = rangy.getSelection();
+    const editor = this.refs.editor;
+    const prefixCls = this.props.prefixCls + '-node';
+    const sel = rangy.getSelection();
     if (this.STORE.bookmark) {
-      var range = sel.getRangeAt(0);
+      const range = sel.getRangeAt(0);
       range.moveToBookmark(this.STORE.bookmark);
-      if(Array.isArray(mentionContent)){
-        mentionContent.map(function (item,index){
-          var mentionNode = document.createElement('input');
+      if (Array.isArray(mentionContent)) {
+        mentionContent.map(function (item) {
+          const mentionNode = document.createElement('input');
           mentionNode.setAttribute('type', 'button');
           mentionNode.setAttribute('tabindex', '-1');
           mentionNode.className = prefixCls;
@@ -128,9 +128,9 @@ export default class ContentEditableEditor extends BaseEditor {
           range.insertNode(mentionNode);
           range.collapseAfter(mentionNode);
           range.select();
-        })
-      }else{
-        var mentionNode = document.createElement('input');
+        });
+      } else {
+        const mentionNode = document.createElement('input');
         mentionNode.setAttribute('type', 'button');
         mentionNode.setAttribute('tabindex', '-1');
         mentionNode.className = prefixCls;

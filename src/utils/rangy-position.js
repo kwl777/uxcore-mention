@@ -14,9 +14,8 @@
  */
 // import rangy from 'rangy';
 if (typeof rangy !== 'undefined') {
-rangy.createModule("Position", ["WrappedSelection"], function(api, module) {
+rangy.createModule('Position', ['WrappedSelection'], function (api, module) {
     //var log = log4javascript.getLogger("rangy.position");
-
     var NUMBER = "number", UNDEF = "undefined";
     var WrappedRange = api.WrappedRange;
     var WrappedTextRange = api.WrappedTextRange;

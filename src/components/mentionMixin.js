@@ -41,7 +41,6 @@ export default {
       }
     }
   },
-  
   runMatcher(str) {
     __matchTimer && clearTimeout(__matchTimer);
     __matchTimer = setTimeout(() => {

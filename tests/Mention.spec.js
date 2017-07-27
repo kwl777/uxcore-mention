@@ -19,12 +19,13 @@ import { getCaretPosition } from '../src/utils/util';
 
 // appendScript('//alinw.alicdn.com/??uxcore/uxcore-lib/rangy/1.3.0/rangy-core.min.js,platform/c/tinymce/4.3.12/tinymce.min.js');
 
-TinymceMention.prototype.runMatcher = function (str){
+TinymceMention.prototype.runMatcher = function runMatcher(str) {
   this._matcher(str);
 };
 
 function setEndOfContenteditable(contentEditableElement) {
-  let range,selection;
+  let range;
+  let selection;
   if (document.createRange) {
     range = document.createRange();
     range.selectNodeContents(contentEditableElement);
@@ -52,15 +53,14 @@ const event_a = {
 };
 
 describe('Mention', () => {
-
   const mentionProps = {
     matchRange: [1, 8],
     source: ['aaaaa', 'aabbb', 'aaccc', 'bbbcc', 'dddee', 'fffqq', 'pppaa', 'ppccc'],
     formatter: (data) => {
       return data.map((item) => {
-          return {
-              text: item
-          };
+        return {
+          text: item,
+        };
       });
     },
   };
@@ -130,14 +130,15 @@ describe('Mention', () => {
     const props = {
       defaultValue: 'defaultContent',
     };
-    let editor, target;
+    let editor;
+    let target;
     class TextareaEditorDemo extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
           show: true,
           value: 'default content',
-        }
+        };
       }
       updateValue() {
         this.setState({
@@ -168,7 +169,7 @@ describe('Mention', () => {
         }
         return (
           <div>{c}</div>
-        )
+        );
       }
     }
     const wrapper = renderIntoDoc(
@@ -213,7 +214,7 @@ describe('Mention', () => {
         <ContenteditableEditor />
       </Mention>
     );
-    Mention.prototype.runMatcher = function (str){
+    Mention.prototype.runMatcher = function runMatcher(str) {
       this._matcher(str);
     };
 
@@ -222,10 +223,10 @@ describe('Mention', () => {
       done();
     });
     it('should hide the placeholder when clicked the editor', (done) => {
-      let placeholders = TestUtils.scryRenderedDOMComponentsWithClass(editor, 'kuma-mention-placeholder');
+      const placeholders = TestUtils.scryRenderedDOMComponentsWithClass(editor, 'kuma-mention-placeholder');
       expect(placeholders.length).to.be(1);
       if (placeholders && placeholders.length > 0) {
-        Simulate.click(placeholders[0])
+        Simulate.click(placeholders[0]);
         expect(TestUtils.scryRenderedDOMComponentsWithClass(editor, 'kuma-mention-placeholder').length).to.be(0);
       }
       done();
@@ -256,7 +257,7 @@ describe('Mention', () => {
         Simulate.keyUp(editor.editor.refs.editor, {
           keyCode: KEYCODE.ENTER,
         });
-        let children = editor.editor.refs.editor.children;
+        const children = editor.editor.refs.editor.children;
         expect(children[0].value).to.be('@aabbb');
         editor.editor.observer = null;
         editor.editor.emitChange();
@@ -272,9 +273,8 @@ describe('Mention', () => {
     const newProps = assign(mentionProps, {
       ref: (node) => editor = node,
     });
-    
-    const container = document.createElement('div');
-    let editor, btn;
+    let editor;
+    let btn;
     class TinymceMentionTest extends React.Component {
       constructor(props) {
         super(props);
@@ -310,7 +310,6 @@ describe('Mention', () => {
         }, 20);
       }
     }
-    
     it('should render correctly', (done) => {
       expect(editor.mceNode.tagName.toLowerCase()).to.be('div');
       done();
@@ -344,5 +343,4 @@ describe('Mention', () => {
       });
     });
   });
-  
 });

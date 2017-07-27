@@ -77,7 +77,7 @@ export default class TextareaEditor extends BaseEditor {
         editor.scrollTop = scrollTop;
       });
     }
-    let changeEvt = createEvent(editor, 'change');
+    const changeEvt = createEvent(editor, 'change');
     this.props.onChange(changeEvt, this.state.value);
   }
   handleChange(e) {

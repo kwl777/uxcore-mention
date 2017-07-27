@@ -7,13 +7,10 @@ import reactMixin from 'react-mixin';
 import { KEYCODE } from '../utils/keycode';
 import mentionMixin from './mentionMixin';
 
-let __matchTimer;
-
 /**
  * Mention Component
  */
 class Mention extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
