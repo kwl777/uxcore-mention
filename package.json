@@ -44,7 +44,8 @@
   "uxcore-dialog": "^0.4.0",
   "uxcore-kuma": "2.x",
   "uxcore-tinymce": "^0.2.2",
-  "uxcore-tools": "0.2.x"
+  "uxcore-tools": "0.2.x",
+  "enzyme": "~2.9.1"
  },
  "dependencies": {
   "classnames": "^2.1.2",
