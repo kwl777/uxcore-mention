@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.14
+`CHANGED` support multiple mention
+
 ## 0.3.11
 `FIXED` server render bug
 

@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.54% </span>
+        <span class="strong">84.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>90/104</span>
+        <span class='fraction'>78/92</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">56.82% </span>
+        <span class="strong">55% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>25/44</span>
+        <span class='fraction'>22/40</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>19/19</span>
+        <span class='fraction'>17/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">87.5% </span>
+        <span class="strong">86.49% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>70/80</span>
+        <span class='fraction'>64/74</span>
       </div>
     </div>
   </div>
@@ -278,25 +278,11 @@
 233
 234
 235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+236</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">35×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -384,8 +370,6 @@
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -399,7 +383,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,7 +393,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
@@ -430,18 +412,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18×</span>
-<span class="cline-any cline-yes">17×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -543,8 +519,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 &nbsp;
-var _extends = Object.assign || function (target) { for (var i = 1; i &lt; arguments.length; i++) { var source = arguments[i]; for (var key in source) { <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-&nbsp;
 var _react = require('react');
 &nbsp;
 var _react2 = _interopRequireDefault(_react);
@@ -578,7 +552,7 @@ var InputEditor = function (_BaseEditor) {
     var _this = _possibleConstructorReturn(this, _BaseEditor.call(this, props));
 &nbsp;
     _this.state = {
-      value: props.value
+      value: props.value || props.defaultValue
     };
     _this.handleChange = _this.handleChange.bind(_this);
     return _this;
@@ -628,8 +602,6 @@ var InputEditor = function (_BaseEditor) {
   };
 &nbsp;
   InputEditor.prototype.insertContentAtCaret = function insertContentAtCaret(text) {
-    var _this2 = this;
-&nbsp;
     var editor = this.refs.editor;
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (document.selection) {
@@ -644,21 +616,19 @@ var InputEditor = function (_BaseEditor) {
 <span class="cstat-no" title="statement not covered" >        editor.setSelectionRange(this.selectionPosition.start, this.selectionPosition.end);</span>
       }
     } else {
-      (function () {
-        var scrollTop = editor.scrollTop;
-        var value = _this2.state.value;
-        // editor.value = editor.value.substring(0, this.selectionPosition.start) +
-        //   text +
-        //   editor.value.substring(this.selectionPosition.end, editor.value.length);
+      var scrollTop = editor.scrollTop;
+      var value = this.state.value;
+      // editor.value = editor.value.substring(0, this.selectionPosition.start) +
+      //   text +
+      //   editor.value.substring(this.selectionPosition.end, editor.value.length);
 &nbsp;
-        value = value.substring(0, _this2.selectionPosition.start) + text + value.substring(_this2.selectionPosition.end, editor.value.length);
-        _this2.setState({
-          value: value
-        }, function () {
-          editor.focus();
-          editor.scrollTop = scrollTop;
-        });
-      })();
+      value = value.substring(0, this.selectionPosition.start) + text + value.substring(this.selectionPosition.end, editor.value.length);
+      this.setState({
+        value: value
+      }, function () {
+        editor.focus();
+        editor.scrollTop = scrollTop;
+      });
     }
     var changeEvt = (0, _util.createEvent)(editor, 'change');
     this.props.onChange(changeEvt, this.state.value);
@@ -675,23 +645,16 @@ var InputEditor = function (_BaseEditor) {
     var value = this.state.value;
     var _props = this.props,
         readOnly = _props.readOnly,
-        placeholder = _props.placeholder,
-        defaultValue = _props.defaultValue;
+        placeholder = _props.placeholder;
 &nbsp;
     var style = {
       width: this.props.width,
       height: this.props.height
     };
-    var valueProps = {
-      defaultValue: defaultValue
-    };
-    if (value) {
-      valueProps.value = value;
-    }
     return _react2['default'].createElement(
       'div',
       { className: this.props.prefixCls },
-      _react2['default'].createElement('input', _extends({
+      _react2['default'].createElement('input', {
         className: this.props.prefixCls + '-editor kuma-input',
         ref: 'editor',
         style: style,
@@ -700,8 +663,9 @@ var InputEditor = function (_BaseEditor) {
         onChange: this.handleChange,
         onKeyDown: this.onKeydown.bind(this),
         onKeyUp: this.onKeyup.bind(this),
-        onFocus: this.onFocus.bind(this)
-      }, valueProps))
+        onFocus: this.onFocus.bind(this),
+        value: value
+      })
     );
   };
 &nbsp;
@@ -790,7 +754,7 @@ module.exports = exports['default'];
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 30 2016 15:28:59 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 31 2017 16:18:18 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
