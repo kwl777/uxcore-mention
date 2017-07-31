@@ -111,41 +111,37 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   insert(mentionContent) {
     const editor = this.refs.editor;
-    const prefixCls = this.props.prefixCls + '-node';
     const sel = rangy.getSelection();
     if (this.STORE.bookmark) {
       const range = sel.getRangeAt(0);
       range.moveToBookmark(this.STORE.bookmark);
       if (Array.isArray(mentionContent)) {
         mentionContent.map(function (item) {
-          const mentionNode = document.createElement('input');
-          mentionNode.setAttribute('type', 'button');
-          mentionNode.setAttribute('tabindex', '-1');
-          mentionNode.className = prefixCls;
-          mentionNode.value = item;
-          // delete origin content in range
-          range.deleteContents();
-          range.insertNode(mentionNode);
-          range.collapseAfter(mentionNode);
-          range.select();
+          this.addSelectPerson(item, range);
         });
       } else {
-        const mentionNode = document.createElement('input');
-        mentionNode.setAttribute('type', 'button');
-        mentionNode.setAttribute('tabindex', '-1');
-        mentionNode.className = prefixCls;
-        mentionNode.value = mentionContent;
-        // delete origin content in range
-        range.deleteContents();
-        range.insertNode(mentionNode);
-        range.collapseAfter(mentionNode);
-        range.select();
+        this.addSelectPerson(mentionContent, range);
       }
       setTimeout(function () {
         editor.focus();
       }, 0);
     }
   }
+
+  addSelectPerson(item, range) {
+    const prefixCls = this.props.prefixCls + '-node';
+    const mentionNode = document.createElement('input');
+    mentionNode.setAttribute('type', 'button');
+    mentionNode.setAttribute('tabindex', '-1');
+    mentionNode.className = prefixCls;
+    mentionNode.value = item;
+    // delete origin content in range
+    range.deleteContents();
+    range.insertNode(mentionNode);
+    range.collapseAfter(mentionNode);
+    range.select();
+  }
+
   extractContent() {
     // console.time('extractContent');
     const editor = this.refs.editor;
