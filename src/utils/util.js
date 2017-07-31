@@ -197,7 +197,7 @@ function getCaretPosition(element) {
     shadowEditorText.textContent = SHADOWEDITORCONTENT;
 
     shadowEditorCaret.style.display = 'inline-block';
-    try { focusOffset = getElementOffset(shadowEditorCaret); } catch (e) { }
+    try { focusOffset = getElementOffset(shadowEditorCaret); } catch (e) {}
     // shadowEditorCaret.style.display = 'none';
     left = focusOffset.left - element.scrollLeft;
     top = focusOffset.top + cursorHeight - element.scrollTop;

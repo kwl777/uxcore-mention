@@ -15,7 +15,7 @@ function pluginInitialized() {
 }
 
 /**
- * @i18n {zh-CN} 用于tinymce的mention 
+ * @i18n {zh-CN} 用于tinymce的mention
  * @i18n {en-US} Mention for Tinymce
  */
 class TinymceMention extends BaseEditor {

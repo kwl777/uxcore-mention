@@ -41,11 +41,10 @@ export default {
       }
     }
   },
-  
   runMatcher(str) {
     __matchTimer && clearTimeout(__matchTimer);
     __matchTimer = setTimeout(() => {
-        this._matcher(str);
+      this._matcher(str);
     }, this.props.delay);
   },
   _matcher(str) {

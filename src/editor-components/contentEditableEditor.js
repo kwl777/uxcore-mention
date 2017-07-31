@@ -110,26 +110,38 @@ export default class ContentEditableEditor extends BaseEditor {
     this.props.onFocus(this);
   }
   insert(mentionContent) {
-    const { editor } = this.refs;
+    const editor = this.refs.editor;
     const sel = rangy.getSelection();
     if (this.STORE.bookmark) {
       const range = sel.getRangeAt(0);
       range.moveToBookmark(this.STORE.bookmark);
-      const mentionNode = document.createElement('input');
-      mentionNode.setAttribute('type', 'button');
-      mentionNode.setAttribute('tabindex', '-1');
-      mentionNode.className = `${this.props.prefixCls}-node`;
-      mentionNode.value = mentionContent;
-      // delete origin content in range
-      range.deleteContents();
-      range.insertNode(mentionNode);
-      range.collapseAfter(mentionNode);
-      range.select();
-      setTimeout(() => {
+      if (Array.isArray(mentionContent)) {
+        mentionContent.map(function (item) {
+          this.addSelectPerson(item, range);
+        });
+      } else {
+        this.addSelectPerson(mentionContent, range);
+      }
+      setTimeout(function () {
         editor.focus();
       }, 0);
     }
   }
+
+  addSelectPerson(item, range) {
+    const prefixCls = this.props.prefixCls + '-node';
+    const mentionNode = document.createElement('input');
+    mentionNode.setAttribute('type', 'button');
+    mentionNode.setAttribute('tabindex', '-1');
+    mentionNode.className = prefixCls;
+    mentionNode.value = item;
+    // delete origin content in range
+    range.deleteContents();
+    range.insertNode(mentionNode);
+    range.collapseAfter(mentionNode);
+    range.select();
+  }
+
   extractContent() {
     // console.time('extractContent');
     const editor = this.refs.editor;
