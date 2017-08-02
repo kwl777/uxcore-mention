@@ -110,6 +110,7 @@ export default class ContentEditableEditor extends BaseEditor {
     this.props.onFocus(this);
   }
   insert(mentionContent) {
+    var _this = this;
     const editor = this.refs.editor;
     const sel = rangy.getSelection();
     if (this.STORE.bookmark) {
@@ -117,10 +118,10 @@ export default class ContentEditableEditor extends BaseEditor {
       range.moveToBookmark(this.STORE.bookmark);
       if (Array.isArray(mentionContent)) {
         mentionContent.map(function (item) {
-          this.addSelectPerson(item, range);
+          _this.addSelectPerson(item, range);
         });
       } else {
-        this.addSelectPerson(mentionContent, range);
+        _this.addSelectPerson(mentionContent, range);
       }
       setTimeout(function () {
         editor.focus();
