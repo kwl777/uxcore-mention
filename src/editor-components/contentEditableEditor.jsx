@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BaseEditor from './baseEditor';
 import { parseStrByDelimiter } from '../utils/util';
 
+const rangy = global.rangy;
 
 // webkit browsers support 'plaintext-only'
 const contentEditableValue = (() => {
@@ -15,6 +17,81 @@ const contentEditableValue = (() => {
 })();
 
 export default class ContentEditableEditor extends BaseEditor {
+
+  static displayName = 'ContentEditableEditor';
+  static propTypes = {
+    /**
+     * @i18n {zh-CN} class前缀
+     * @i18n {en-US} class prefix
+     */
+    prefixCls: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 编辑区域宽度
+     * @i18n {en-US} editor's width
+     */
+    width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    /**
+     * @i18n {zh-CN} 编辑区域高度
+     * @i18n {en-US} editor's height
+     */
+    height: PropTypes.number,
+    /**
+     * @i18n {zh-CN} placeholder
+     * @i18n {en-US} placeholder
+     */
+    placeholder: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 自定义插入的mention内容
+     * @i18n {en-US} customize the insert content with this function | function
+     */
+    mentionFormatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 发生变化后的触发
+     * @i18n {en-US} trigger when editor content change
+     */
+    onChange: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 添加mention后触发
+     * @i18n {en-US} Callback invoked when a mention has been added
+     */
+    onAdd: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 默认内容
+     * @i18n {en-US} default value
+     */
+    defaultValue: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 内容
+     * @i18n {en-US} value
+     */
+    value: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 只读
+     * @i18n {en-US} read only
+     */
+    readOnly: PropTypes.bool,
+    /**
+     * @i18n {zh-CN} 触发字符
+     * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
+     */
+    delimiter: PropTypes.string,
+  };
+  static defaultProps = {
+    prefixCls: '',
+    width: 200,
+    height: 100,
+    placeholder: '',
+    mentionFormatter: data => `@${data.text}`,
+    onChange: () => {},
+    onAdd: () => {},
+    defaultValue: '',
+    readOnly: false,
+    delimiter: '@',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,13 +102,13 @@ export default class ContentEditableEditor extends BaseEditor {
   componentDidMount() {
     this.STORE = {};
     if (this.state.value) {
-      this.refs.editor.innerHTML = this.state.value;
+      this.editor.innerHTML = this.state.value;
     }
     const MutationObserver =
       window.MutationObserver || window.WebkitMutationObserver || window.MozMutationObserver;
     if (MutationObserver) {
       this.observer = new MutationObserver(this.onMutation.bind(this));
-      this.observer.observe(this.refs.editor, {
+      this.observer.observe(this.editor, {
         characterData: true,
         childList: true,
         subtree: true,
@@ -40,7 +117,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
-      this.refs.editor.innerHTML = nextProps.value;
+      this.editor.innerHTML = nextProps.value;
     }
   }
   componentWillUnmount() {
@@ -50,7 +127,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   handleEnterPress(e) {
     e.preventDefault();
-    const editor = this.refs.editor;
+    const editor = this.editor;
     const sel = rangy.getSelection();
     const range = sel.getRangeAt(0);
 
@@ -67,8 +144,8 @@ export default class ContentEditableEditor extends BaseEditor {
     sel.setSingleRange(range);
   }
 
-  handleDefaultKeyup(e) {
-    const { delimiter, matchRange } = this.props;
+  handleDefaultKeyup() {
+    const { delimiter } = this.props;
     const sel = rangy.getSelection();
     const range = sel.getRangeAt(0);
     if (range.commonAncestorContainer.nodeType === 3) {
@@ -110,27 +187,22 @@ export default class ContentEditableEditor extends BaseEditor {
     this.props.onFocus(this);
   }
   insert(mentionContent) {
-    var _this = this;
-    const editor = this.refs.editor;
+    const editor = this.editor;
     const sel = rangy.getSelection();
     if (this.STORE.bookmark) {
       const range = sel.getRangeAt(0);
       range.moveToBookmark(this.STORE.bookmark);
       if (Array.isArray(mentionContent)) {
-        mentionContent.map(function (item) {
-          _this.addSelectPerson(item, range);
-        });
+        mentionContent.map(item => this.addSelectPerson(item, range));
       } else {
-        _this.addSelectPerson(mentionContent, range);
+        this.addSelectPerson(mentionContent, range);
       }
-      setTimeout(function () {
-        editor.focus();
-      }, 0);
+      setTimeout(() => editor.focus(), 0);
     }
   }
 
   addSelectPerson(item, range) {
-    const prefixCls = this.props.prefixCls + '-node';
+    const prefixCls = `${this.props.prefixCls}-node`;
     const mentionNode = document.createElement('input');
     mentionNode.setAttribute('type', 'button');
     mentionNode.setAttribute('tabindex', '-1');
@@ -145,7 +217,7 @@ export default class ContentEditableEditor extends BaseEditor {
 
   extractContent() {
     // console.time('extractContent');
-    const editor = this.refs.editor;
+    const editor = this.editor;
     const nodes = editor.childNodes;
     let content = '';
     for (let i = 0, len = nodes.length; i < len; i += 1) {
@@ -166,7 +238,7 @@ export default class ContentEditableEditor extends BaseEditor {
   }
   emitChange(e) {
     if (!this.observer) {
-      const editor = this.refs.editor;
+      const editor = this.editor;
 
       const lastHtml = this.lastHtml;
       const currentHtml = editor.innerHTML;
@@ -190,7 +262,9 @@ export default class ContentEditableEditor extends BaseEditor {
     };
     return (
       <div className={this.props.prefixCls}>
-        <div className={`${this.props.prefixCls}-editor`} ref="editor"
+        <div
+          className={`${this.props.prefixCls}-editor`}
+          ref={el => (this.editor = el)}
           onKeyUp={this.onKeyup.bind(this)}
           onKeyDown={this.onKeydown.bind(this)}
           contentEditable={readOnly ? false : contentEditableValue}
@@ -199,85 +273,20 @@ export default class ContentEditableEditor extends BaseEditor {
           onFocus={this.onFocus.bind(this)}
           style={style}
         />
-        {!this.state.focus && !this.state.value ? <div className={`${this.props.prefixCls}-placeholder`} onClick={() => {
-          this.refs.editor.focus();
-          this.onFocus();
-        }}
-        >{placeholder}</div> : ''}
+        {
+          !this.state.focus && !this.state.value ?
+            <div
+              className={`${this.props.prefixCls}-placeholder`}
+              onClick={() => {
+                this.editor.focus();
+                this.onFocus();
+              }}
+            >
+              {placeholder}
+            </div>
+          : ''
+        }
       </div>
     );
   }
 }
-ContentEditableEditor.displayName = 'ContentEditableEditor';
-ContentEditableEditor.propTypes = {
-  /**
-   * @i18n {zh-CN} class前缀
-   * @i18n {en-US} class prefix
-   */
-  prefixCls: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 编辑区域宽度
-   * @i18n {en-US} editor's width
-   */
-  width: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
-  ]),
-  /**
-   * @i18n {zh-CN} 编辑区域高度
-   * @i18n {en-US} editor's height
-   */
-  height: React.PropTypes.number,
-  /**
-   * @i18n {zh-CN} placeholder
-   * @i18n {en-US} placeholder
-   */
-  placeholder: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 自定义插入的mention内容
-   * @i18n {en-US} customize the insert content with this function | function
-   */
-  mentionFormatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 发生变化后的触发
-   * @i18n {en-US} trigger when editor content change
-   */
-  onChange: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 添加mention后触发
-   * @i18n {en-US} Callback invoked when a mention has been added
-   */
-  onAdd: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 默认内容
-   * @i18n {en-US} default value
-   */
-  defaultValue: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 内容
-   * @i18n {en-US} value
-   */
-  value: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 只读
-   * @i18n {en-US} read only
-   */
-  readOnly: React.PropTypes.bool,
-  /**
-   * @i18n {zh-CN} 触发字符
-   * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
-   */
-  delimiter: React.PropTypes.string,
-};
-ContentEditableEditor.defaultProps = {
-  prefixCls: '',
-  width: 200,
-  height: 100,
-  placeholder: '',
-  mentionFormatter: data => `@${data.text}`,
-  onChange: () => {},
-  onAdd: () => {},
-  defaultValue: '',
-  readOnly: false,
-  delimiter: '@',
-};

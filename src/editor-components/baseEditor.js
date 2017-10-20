@@ -1,12 +1,19 @@
-import React from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { KEYCODE } from '../utils/keycode';
-import { parseStrByDelimiter } from '../utils/util';
 import '../utils/rangy-position';
 
-export default class BaseEditor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+export default class BaseEditor extends Component {
+  static displayName = 'BaseEditor';
+  static propTypes = {
+    panelVisible: PropTypes.boolean,
+    onFocus: PropTypes.func,
+    mentionFormatter: PropTypes.func,
+    onAdd: PropTypes.func,
+  };
+  static defaultProps = {
+  };
+
   onFocus() {
     this.props.onFocus(this);
   }
@@ -22,8 +29,8 @@ export default class BaseEditor extends React.Component {
       case KEYCODE.ENTER:
         if (panelVisible) {
           e.preventDefault();
-        } else {
-          this.handleEnterPress && this.handleEnterPress(e);
+        } else if (this.handleEnterPress) {
+          this.handleEnterPress(e);
         }
         break;
       default:
@@ -42,7 +49,9 @@ export default class BaseEditor extends React.Component {
       case KEYCODE.ENTER:
         break;
       default:
-        this.handleDefaultKeyup && this.handleDefaultKeyup();
+        if (this.handleDefaultKeyup) {
+          this.handleDefaultKeyup();
+        }
         break;
     }
   }

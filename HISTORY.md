@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.17
+`IMPROVE` support react 15.x
+
 ## 0.3.14
 `CHANGED` support multiple mention
 

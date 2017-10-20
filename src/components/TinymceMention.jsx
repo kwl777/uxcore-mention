@@ -1,14 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import PropTypes from 'prop-types';
 import reactMixin from 'react-mixin';
 import Panel from './Panel';
 import BaseEditor from '../editor-components/baseEditor';
 import { KEYCODE } from '../utils/keycode';
-import { parseStrByDelimiter, getScrollOffset } from '../utils/util';
+import { parseStrByDelimiter } from '../utils/util';
 import mentionMixin from './mentionMixin';
 
+const tinymce = global.tinymce;
+
 function pluginInitialized() {
-  const ed = window.tinymce.activeEditor;
+  const ed = tinymce.activeEditor;
   const plugins = ed && ed.plugins;
   const mention = plugins && plugins.mention;
   return !!mention;
@@ -19,6 +22,77 @@ function pluginInitialized() {
  * @i18n {en-US} Mention for Tinymce
  */
 class TinymceMention extends BaseEditor {
+
+  static displayName = 'TinymceMention';
+  static propTypes = {
+    /**
+     * @i18n {zh-CN} class前缀
+     * @i18n {en-US} class prefix
+     */
+    prefixCls: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 定义数据源
+     * @i18n {en-US} data source for mention content
+     */
+    source: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.func,
+    ]),
+    /**
+     * @i18n {zh-CN} 数据源查询延时
+     * @i18n {en-US} debounce of the request to data source
+     */
+    delay: PropTypes.number,
+    /**
+     * @i18n {zh-CN} 匹配字符区间
+     * @i18n {en-US} only match the string after delimiter which the length in this range
+     */
+    matchRange: PropTypes.arrayOf(PropTypes.number),
+    /**
+     * @i18n {zh-CN} 数据源格式化匹配
+     * @i18n {en-US} format the data form source
+     */
+    formatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 自定义插入的mention内容
+     * @i18n {en-US} customize the insert content with this function | function
+     */
+    mentionFormatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 自定义选择列表
+     * @i18n {en-US} customize the panel display
+     */
+    panelFormatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 发生变化后的触发
+     * @i18n {en-US} trigger when editor content change
+     * @param {data} xxxxxx
+     */
+    onChange: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 添加mention后触发
+     * @i18n {en-US} Callback invoked when a mention has been added
+     */
+    onAdd: PropTypes.func,
+    /**
+     * @i18n {zh-CN} `ELEMENT_NODE` 插入button, `TEXT_NODE` 插入纯字符串
+     * @i18n {en-US} `ELEMENT_NODE` will insert mention content with a button, `TEXT_NODE` will insert with a text node
+     */
+    insertMode: PropTypes.oneOf(['ELEMENT_NODE', 'TEXT_NODE']),
+  };
+  static defaultProps = {
+    prefixCls: 'kuma-mention',
+    source: [],
+    delay: 100,
+    matchRange: [2, 8],
+    formatter: (data) => data,
+    mentionFormatter: (data) => `@${data.text}`,
+    panelFormatter: (data) => `${data.text}`,
+    onChange: () => {},
+    onAdd: () => {},
+    insertMode: 'ELEMENT_NODE',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,10 +123,10 @@ class TinymceMention extends BaseEditor {
 
   componentDidMount() {
     this.STORE = {};
-    const container = this.refs.target.parentNode;
+    const container = this._target.parentNode;
     const mceNode = document.createElement('div');
     this.mceNode = mceNode;
-    ReactDOM.render((
+    render((
       <div>
         {
           React.Children.map(this.props.children, (Comp) => {
@@ -69,11 +143,11 @@ class TinymceMention extends BaseEditor {
         }
       </div>
     ), mceNode);
-    container.insertBefore(mceNode, this.refs.target);
+    container.insertBefore(mceNode, this._target);
   }
 
   componentWillUnmount() {
-    const container = this.refs.target.parentNode;
+    const container = this._target.parentNode;
     container.removeChild(this.mceNode);
   }
 
@@ -145,7 +219,6 @@ class TinymceMention extends BaseEditor {
         sel.collapse();
       }
     }
-    // debugger;
   }
 
   insert(mentionContent) {
@@ -190,7 +263,7 @@ class TinymceMention extends BaseEditor {
         this.editor.focus();
       } else {
         const internalRange = sel.getRng();
-        internalRange.moveStart('character', - this.STORE.bookmark);
+        internalRange.moveStart('character', -this.STORE.bookmark);
         internalRange.pasteHTML(mentionContent);
       }
     }
@@ -216,13 +289,13 @@ class TinymceMention extends BaseEditor {
   }
 
   render() {
-    let panelPosition = {
+    const panelPosition = {
       left: this.state.cursorPosition.x,
       top: this.state.cursorPosition.y,
     };
     const { prefixCls, panelFormatter } = this.props;
     return (
-      <div ref="target">
+      <div ref={el => (this._target = el)}>
         <Panel
           prefixCls={prefixCls}
           visible={this.state.panelVisible}
@@ -238,74 +311,5 @@ class TinymceMention extends BaseEditor {
 }
 
 reactMixin(TinymceMention.prototype, mentionMixin);
-TinymceMention.displayName = 'TinymceMention';
-TinymceMention.propTypes = {
-  /**
-   * @i18n {zh-CN} class前缀
-   * @i18n {en-US} class prefix
-   */
-  prefixCls: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 定义数据源
-   * @i18n {en-US} data source for mention content
-   */
-  source: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.func,
-  ]),
-  /**
-   * @i18n {zh-CN} 数据源查询延时
-   * @i18n {en-US} debounce of the request to data source
-   */
-  delay: React.PropTypes.number,
-  /**
-   * @i18n {zh-CN} 匹配字符区间
-   * @i18n {en-US} only match the string after delimiter which the length in this range
-   */
-  matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
-  /**
-   * @i18n {zh-CN} 数据源格式化匹配
-   * @i18n {en-US} format the data form source
-   */
-  formatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 自定义插入的mention内容
-   * @i18n {en-US} customize the insert content with this function | function
-   */
-  mentionFormatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 自定义选择列表
-   * @i18n {en-US} customize the panel display
-   */
-  panelFormatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 发生变化后的触发
-   * @i18n {en-US} trigger when editor content change
-   * @param {data} xxxxxx
-   */
-  onChange: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 添加mention后触发
-   * @i18n {en-US} Callback invoked when a mention has been added
-   */
-  onAdd: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} `ELEMENT_NODE` 插入button, `TEXT_NODE` 插入纯字符串
-   * @i18n {en-US} `ELEMENT_NODE` will insert mention content with a button, `TEXT_NODE` will insert with a text node
-   */
-  insertMode: React.PropTypes.oneOf(['ELEMENT_NODE', 'TEXT_NODE']),
-};
-TinymceMention.defaultProps = {
-  prefixCls: 'kuma-mention',
-  source: [],
-  delay: 100,
-  matchRange: [2, 8],
-  formatter: (data) => data,
-  mentionFormatter: (data) => `@${data.text}`,
-  panelFormatter: (data) => `${data.text}`,
-  onChange: (e, value) => {},
-  onAdd: () => {},
-  insertMode: 'ELEMENT_NODE',
-};
 
 export default TinymceMention;

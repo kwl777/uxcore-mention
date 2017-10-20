@@ -1,16 +1,69 @@
 /**
  * @author: vincent.bian
  */
-import React from 'react';
-import Panel from './Panel';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import reactMixin from 'react-mixin';
-import { KEYCODE } from '../utils/keycode';
+import Panel from './Panel';
 import mentionMixin from './mentionMixin';
 
 /**
  * Mention Component
  */
-class Mention extends React.Component {
+class Mention extends Component {
+
+  static displayName = 'Mention';
+  static propTypes = {
+    /**
+     * @i18n {zh-CN} class前缀
+     * @i18n {en-US} class prefix
+     */
+    prefixCls: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 定义数据源
+     * @i18n {en-US} data source for mention content
+     */
+    source: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.func,
+    ]),
+    /**
+     * @i18n {zh-CN} 数据源查询延时
+     * @i18n {en-US} debounce of the request to data source
+     */
+    delay: PropTypes.number,
+    /**
+     * @i18n {zh-CN} 匹配字符区间
+     * @i18n {en-US} only match the string after delimiter which the length in this range
+     */
+    matchRange: PropTypes.arrayOf(PropTypes.number),
+    /**
+     * @i18n {zh-CN} 数据源格式化匹配
+     * @i18n {en-US} format the data form source
+     */
+    formatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 自定义选择列表
+     * @i18n {en-US} customize the panel display
+     */
+    panelFormatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 发生变化后的触发
+     * @i18n {en-US} trigger when editor content change
+     */
+    onChange: PropTypes.func,
+    children: PropTypes.any,
+  };
+  static defaultProps = {
+    prefixCls: 'kuma-mention',
+    source: [],
+    delay: 100,
+    matchRange: [2, 8],
+    formatter: (data) => data,
+    panelFormatter: (data) => `${data.text}`,
+    onChange: () => {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -54,11 +107,11 @@ class Mention extends React.Component {
   }
 
   render() {
-    let panelPosition = {
+    const panelPosition = {
       left: this.state.cursorPosition.x,
       top: this.state.cursorPosition.y,
     };
-    let { prefixCls, readOnly, onChange, children, panelFormatter, matchRange } = this.props;
+    const { prefixCls, onChange, children, panelFormatter, matchRange } = this.props;
     return (
       <div onKeyUp={this.onPanelKeyup.bind(this)}>
         {
@@ -70,7 +123,7 @@ class Mention extends React.Component {
               setCursorPos: this.setPanelPos.bind(this),
               onChange,
               onFocus: this.onFocus.bind(this),
-              matchRange: matchRange,
+              matchRange,
             })
           )
         }
@@ -89,55 +142,5 @@ class Mention extends React.Component {
 }
 
 reactMixin(Mention.prototype, mentionMixin);
-Mention.displayName = 'Mention';
-Mention.propTypes = {
-  /**
-   * @i18n {zh-CN} class前缀
-   * @i18n {en-US} class prefix
-   */
-  prefixCls: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 定义数据源
-   * @i18n {en-US} data source for mention content
-   */
-  source: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.func,
-  ]),
-  /**
-   * @i18n {zh-CN} 数据源查询延时
-   * @i18n {en-US} debounce of the request to data source
-   */
-  delay: React.PropTypes.number,
-  /**
-   * @i18n {zh-CN} 匹配字符区间
-   * @i18n {en-US} only match the string after delimiter which the length in this range
-   */
-  matchRange: React.PropTypes.arrayOf(React.PropTypes.number),
-  /**
-   * @i18n {zh-CN} 数据源格式化匹配
-   * @i18n {en-US} format the data form source
-   */
-  formatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 自定义选择列表
-   * @i18n {en-US} customize the panel display
-   */
-  panelFormatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 发生变化后的触发
-   * @i18n {en-US} trigger when editor content change
-   */
-  onChange: React.PropTypes.func,
-};
-Mention.defaultProps = {
-  prefixCls: 'kuma-mention',
-  source: [],
-  delay: 100,
-  matchRange: [2, 8],
-  formatter: (data) => data,
-  panelFormatter: (data) => `${data.text}`,
-  onChange: (e, value) => {},
-};
 
 export default Mention;

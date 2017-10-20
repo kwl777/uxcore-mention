@@ -1,4 +1,5 @@
 import { KEYCODE } from '../utils/keycode';
+
 let __matchTimer;
 
 export default {
@@ -42,13 +43,14 @@ export default {
     }
   },
   runMatcher(str) {
-    __matchTimer && clearTimeout(__matchTimer);
+    if (__matchTimer) {
+      clearTimeout(__matchTimer);
+    }
     __matchTimer = setTimeout(() => {
       this._matcher(str);
     }, this.props.delay);
   },
   _matcher(str) {
-    // console.log(`matcher run with: ${str}`);
     const { source, matchRange } = this.props;
     this.setState({
       panelVisible: false,

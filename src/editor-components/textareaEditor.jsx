@@ -1,12 +1,89 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BaseEditor from './baseEditor';
-import { parseStrByDelimiter, getCaretOffset, getCaretPosition, getScrollOffset, createEvent } from '../utils/util';
+import { parseStrByDelimiter, getCaretOffset, getCaretPosition, createEvent } from '../utils/util';
 
 /**
  * @i18n {zh-CN} textarea中使用mention
  * @i18n {en-US} mention in textarea
  */
 export default class TextareaEditor extends BaseEditor {
+
+  static displayName = 'TextareaEditor';
+  static propTypes = {
+    /**
+     * @i18n {zh-CN} class前缀
+     * @i18n {en-US} class prefix
+     */
+    prefixCls: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 编辑区域宽度
+     * @i18n {en-US} editor's width
+     */
+    width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    /**
+     * @i18n {zh-CN} 编辑区域高度
+     * @i18n {en-US} editor's height
+     */
+    height: PropTypes.number,
+    /**
+     * @i18n {zh-CN} placeholder
+     * @i18n {en-US} placeholder
+     */
+    placeholder: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 自定义插入的mention内容
+     * @i18n {en-US} customize the insert content with this function | function
+     */
+    mentionFormatter: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 发生变化后的触发
+     * @i18n {en-US} trigger when editor content change
+     */
+    // onChange: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 添加mention后触发
+     * @i18n {en-US} Callback invoked when a mention has been added
+     */
+    onAdd: PropTypes.func,
+    /**
+     * @i18n {zh-CN} 默认内容
+     * @i18n {en-US} default value
+     */
+    defaultValue: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 内容
+     * @i18n {en-US} value
+     */
+    value: PropTypes.string,
+    /**
+     * @i18n {zh-CN} 只读
+     * @i18n {en-US} read only
+     */
+    readOnly: PropTypes.bool,
+    /**
+     * @i18n {zh-CN} 触发字符
+     * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
+     */
+    delimiter: PropTypes.string,
+  };
+  static defaultProps = {
+    prefixCls: '',
+    width: 200,
+    height: 100,
+    placeholder: '',
+    mentionFormatter: (data) => ` @${data.text} `,
+    // onChange: () => {},
+    onAdd: () => {},
+    defaultValue: '',
+    readOnly: false,
+    delimiter: '@',
+    value: '',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +105,7 @@ export default class TextareaEditor extends BaseEditor {
     };
   }
   handleDefaultKeyup() {
-    const { editor } = this.refs;
+    const editor = this.editor;
     const { delimiter } = this.props;
     const offset = getCaretOffset(editor);
     let { value } = this.state;
@@ -52,7 +129,7 @@ export default class TextareaEditor extends BaseEditor {
     this.insertContentAtCaret(mentionContent);
   }
   insertContentAtCaret(text) {
-    const { editor } = this.refs;
+    const editor = this.editor;
     if (document.selection) {
       editor.focus();
       if (editor.createTextRange) {
@@ -96,7 +173,7 @@ export default class TextareaEditor extends BaseEditor {
     return (
       <div className={this.props.prefixCls}>
         <textarea
-          ref="editor"
+          ref={el => (this.editor = el)}
           className={`${this.props.prefixCls}-editor kuma-textarea`}
           style={style}
           readOnly={readOnly}
@@ -106,83 +183,8 @@ export default class TextareaEditor extends BaseEditor {
           onFocus={this.onFocus.bind(this)}
           onChange={this.handleChange}
           value={value}
-        >
-        </textarea>
+        />
       </div>
     );
   }
 }
-TextareaEditor.displayName = 'TextareaEditor';
-TextareaEditor.propTypes = {
-  /**
-   * @i18n {zh-CN} class前缀
-   * @i18n {en-US} class prefix
-   */
-  prefixCls: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 编辑区域宽度
-   * @i18n {en-US} editor's width
-   */
-  width: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
-  ]),
-  /**
-   * @i18n {zh-CN} 编辑区域高度
-   * @i18n {en-US} editor's height
-   */
-  height: React.PropTypes.number,
-  /**
-   * @i18n {zh-CN} placeholder
-   * @i18n {en-US} placeholder
-   */
-  placeholder: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 自定义插入的mention内容
-   * @i18n {en-US} customize the insert content with this function | function
-   */
-  mentionFormatter: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 发生变化后的触发
-   * @i18n {en-US} trigger when editor content change
-   */
-  // onChange: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 添加mention后触发
-   * @i18n {en-US} Callback invoked when a mention has been added
-   */
-  onAdd: React.PropTypes.func,
-  /**
-   * @i18n {zh-CN} 默认内容
-   * @i18n {en-US} default value
-   */
-  defaultValue: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 内容
-   * @i18n {en-US} value
-   */
-  value: React.PropTypes.string,
-  /**
-   * @i18n {zh-CN} 只读
-   * @i18n {en-US} read only
-   */
-  readOnly: React.PropTypes.bool,
-  /**
-   * @i18n {zh-CN} 触发字符
-   * @i18n {en-US} Defines the char sequence upon which to trigger querying the data source
-   */
-  delimiter: React.PropTypes.string,
-};
-TextareaEditor.defaultProps = {
-  prefixCls: '',
-  width: 200,
-  height: 100,
-  placeholder: '',
-  mentionFormatter: (data) => ` @${data.text} `,
-  // onChange: () => {},
-  onAdd: () => {},
-  defaultValue: '',
-  readOnly: false,
-  delimiter: '@',
-  value: '',
-};
