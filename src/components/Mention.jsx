@@ -3,14 +3,13 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import reactMixin from 'react-mixin';
 import Panel from './Panel';
-import mentionMixin from './mentionMixin';
+import BaseMention from './mentionMixin';
 
 /**
  * Mention Component
  */
-class Mention extends Component {
+class Mention extends BaseMention {
 
   static displayName = 'Mention';
   static propTypes = {
@@ -79,6 +78,18 @@ class Mention extends Component {
   componentDidMount() {
     this.activeEditor = null;
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.mentionList.length !== this.state.mentionList.length) {
+      this.setState({
+        panelVisible: this.state.mentionList.length > 0,
+      });
+    }
+    if (!prevState.panelVisible && this.state.panelVisible) {
+      this.setState({
+        panelIdx: 0,
+      });
+    }
+  }
   /**
    * description of onfocus
    * @i18n {zh-CN} 测试api文档
@@ -140,7 +151,5 @@ class Mention extends Component {
     );
   }
 }
-
-reactMixin(Mention.prototype, mentionMixin);
 
 export default Mention;

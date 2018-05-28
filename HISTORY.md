@@ -2,6 +2,9 @@
 
 ---
 
+## 0.3.18
+`IMPROVE` remove react-mixin dependency.
+
 ## 0.3.17
 `IMPROVE` support react 15.x
 

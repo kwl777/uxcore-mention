@@ -1,62 +1,61 @@
 {
- "name": "uxcore-mention",
- "version": "0.3.17",
- "description": "Mention anywhere with this component",
- "main": "build/index.js",
- "scripts": {
-  "start": "uxcore-tools run start",
-  "server": "uxcore-tools run server",
-  "lint": "uxcore-tools run lint",
-  "build": "uxcore-tools run build",
-  "test": "uxcore-tools run electron",
-  "coverage": "uxcore-tools run electron-coverage",
-  "pub": "uxcore-tools run pub",
-  "dep": "uxcore-tools run dep",
-  "tnpm-dep": "uxcore-tools run tnpm-dep",
-  "chrome": "uxcore-tools run chrome",
-  "browsers": "uxcore-tools run browsers",
-  "saucelabs": "uxcore-tools run saucelabs",
-  "update": "uxcore-tools run update",
-  "tnpm-update": "uxcore-tools run tnpm-update"
- },
- "repository": {
-  "type": "git",
-  "url": "git@github.com:uxcore/mention.git"
- },
- "bugs": {
-  "url": "http://github.com/uxcore/mention/issues"
- },
- "keywords": [
-  "react",
-  "react-component",
-  "react-mention",
-  "mention"
- ],
- "devDependencies": {
-  "console-polyfill": "^0.2.2",
-  "enzyme": "^3.0.0",
-  "enzyme-adapter-react-15": "^1.0.0",
-  "es5-shim": "^4.5.8",
-  "expect.js": "~0.3.1",
-  "kuma-base": "1.x",
-  "object-assign": "^4.0.0",
-  "react": "15.x",
-  "react-addons-test-utils": "^15.6.2",
-  "react-dom": "15.x",
-  "react-test-renderer": "15.x",
-  "uxcore-dialog": "^0.4.0",
-  "uxcore-kuma": "*",
-  "uxcore-tinymce": "^0.2.2",
-  "uxcore-tools": "0.2.x"
- },
- "dependencies": {
-  "classnames": "^2.1.2",
-  "prop-types": "15.x",
-  "react-mixin": "^2.0.2"
- },
- "author": "vincent.bian",
- "contributors": [],
- "license": "MIT",
- "_from": "uxcore-mention@0.3.10",
- "_resolved": "http://registry.npm.alibaba-inc.com/uxcore-mention/download/uxcore-mention-0.3.10.tgz"
+  "name": "uxcore-mention",
+  "version": "0.3.18",
+  "description": "Mention anywhere with this component",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "uxcore-tools run start",
+    "server": "uxcore-tools run server",
+    "lint": "uxcore-tools run lint",
+    "build": "uxcore-tools run build",
+    "test": "uxcore-tools run electron",
+    "coverage": "uxcore-tools run electron-coverage",
+    "pub": "uxcore-tools run pub",
+    "dep": "uxcore-tools run dep",
+    "tnpm-dep": "uxcore-tools run tnpm-dep",
+    "chrome": "uxcore-tools run chrome",
+    "browsers": "uxcore-tools run browsers",
+    "saucelabs": "uxcore-tools run saucelabs",
+    "update": "uxcore-tools run update",
+    "tnpm-update": "uxcore-tools run tnpm-update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:uxcore/mention.git"
+  },
+  "bugs": {
+    "url": "http://github.com/uxcore/mention/issues"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "react-mention",
+    "mention"
+  ],
+  "devDependencies": {
+    "console-polyfill": "^0.2.2",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-15": "^1.0.0",
+    "es5-shim": "^4.5.8",
+    "expect.js": "~0.3.1",
+    "kuma-base": "1.x",
+    "object-assign": "^4.0.0",
+    "react": "15.x",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "15.x",
+    "react-test-renderer": "15.x",
+    "uxcore-dialog": "^0.4.0",
+    "uxcore-kuma": "*",
+    "uxcore-tinymce": "^0.2.2",
+    "uxcore-tools": "0.2.x"
+  },
+  "dependencies": {
+    "classnames": "^2.1.2",
+    "prop-types": "15.x"
+  },
+  "author": "vincent.bian",
+  "contributors": [],
+  "license": "MIT",
+  "_from": "uxcore-mention@0.3.10",
+  "_resolved": "http://registry.npm.alibaba-inc.com/uxcore-mention/download/uxcore-mention-0.3.10.tgz"
 }

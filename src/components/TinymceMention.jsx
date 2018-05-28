@@ -1,12 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import reactMixin from 'react-mixin';
 import Panel from './Panel';
 import BaseEditor from '../editor-components/baseEditor';
 import { KEYCODE } from '../utils/keycode';
 import { parseStrByDelimiter } from '../utils/util';
-import mentionMixin from './mentionMixin';
 
 const tinymce = global.tinymce;
 
@@ -144,6 +142,19 @@ class TinymceMention extends BaseEditor {
       </div>
     ), mceNode);
     container.insertBefore(mceNode, this._target);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.mentionList.length !== this.state.mentionList.length) {
+      this.setState({
+        panelVisible: this.state.mentionList.length > 0,
+      });
+    }
+    if (!prevState.panelVisible && this.state.panelVisible) {
+      this.setState({
+        panelIdx: 0,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -309,7 +320,5 @@ class TinymceMention extends BaseEditor {
     );
   }
 }
-
-reactMixin(TinymceMention.prototype, mentionMixin);
 
 export default TinymceMention;

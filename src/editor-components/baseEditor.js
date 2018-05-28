@@ -1,9 +1,9 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { KEYCODE } from '../utils/keycode';
 import '../utils/rangy-position';
+import BaseMention from '../components/mentionMixin';
 
-export default class BaseEditor extends Component {
+export default class BaseEditor extends BaseMention {
   static displayName = 'BaseEditor';
   static propTypes = {
     panelVisible: PropTypes.boolean,

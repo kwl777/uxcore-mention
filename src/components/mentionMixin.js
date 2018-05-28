@@ -1,21 +1,7 @@
+import { Component } from 'react';
 import { KEYCODE } from '../utils/keycode';
 
-let __matchTimer;
-
-export default {
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.mentionList.length !== this.state.mentionList.length) {
-      this.setState({
-        panelVisible: this.state.mentionList.length > 0,
-      });
-    }
-    if (!prevState.panelVisible && this.state.panelVisible) {
-      this.setState({
-        panelIdx: 0,
-      });
-    }
-  },
-
+export default class BaseMention extends Component {
   onPanelKeyup(e) {
     const { panelVisible, panelIdx, mentionList } = this.state;
     if (panelVisible) {
@@ -41,15 +27,15 @@ export default {
           break;
       }
     }
-  },
+  }
   runMatcher(str) {
-    if (__matchTimer) {
-      clearTimeout(__matchTimer);
+    if (this.__matchTimer) {
+      clearTimeout(this.__matchTimer);
     }
-    __matchTimer = setTimeout(() => {
+    this.__matchTimer = setTimeout(() => {
       this._matcher(str);
     }, this.props.delay);
-  },
+  }
   _matcher(str) {
     const { source, matchRange } = this.props;
     this.setState({
@@ -63,8 +49,7 @@ export default {
         source(str, this.next.bind(this));
       }
     }
-  },
-
+  }
   next(matchResult) {
     let result = matchResult;
     if (this.props.formatter) {
@@ -73,5 +58,5 @@ export default {
     this.setState({
       mentionList: result,
     });
-  },
+  }
 };
