@@ -107,6 +107,7 @@ export default class Demo extends Component {
             placeholder="contenteditable editor placeholder"
             defaultValue={'defaultValue'}
             value={this.state.content}
+            maxLength={10}
           />
           <TextareaEditor
             width={250}
@@ -123,6 +124,7 @@ export default class Demo extends Component {
             placeholder="input editor placeholder"
             defaultValue={'defaultValue'}
             value={this.state.content}
+            maxLength={10}
           />
         </Mention>
         <button onClick={() => this.setState({ content: new Date() })}>change content</button>
