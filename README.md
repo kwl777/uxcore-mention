@@ -197,6 +197,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
 | delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |
+| maxLength | Define the char input limiation | number | |
 
 
 #### TextareaEditor
@@ -213,6 +214,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
 | delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |
+| maxLength | Define the char input limiation | number | |
+
 
 #### InputEditor
 
@@ -228,3 +231,5 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | defaultValue | default values | string | |
 | readOnly | can not edit | boolean | |
 | delimiter | Defines the char sequence upon which to trigger querying the data source | string | '@' |
+| maxLength | Define the char input limiation | number | |
+

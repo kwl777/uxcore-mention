@@ -2,6 +2,9 @@
 
 ---
 
+## 0.4.0
+`NEW` add `maxLength` prop to editors.
+
 ## 0.3.18
 `IMPROVE` remove react-mixin dependency.
 

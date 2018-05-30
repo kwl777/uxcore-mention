@@ -27,3 +27,5 @@ sea-modules
 spm_modules
 .cache
 dist
+coverage
+package-lock.json
